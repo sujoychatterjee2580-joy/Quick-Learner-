@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>QuickLearn Kids - Complete Alphabet & 1-100 Numbers World</title>
-  <link rel="manifest" href="manifest.json">
+  <title>QuickLearn Kids - Complete ABC & 1-100 Math World</title>
   <meta name="theme-color" content="#FF4757">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +44,7 @@
     /* Header Navigation */
     header {
       background: #FFFFFF;
-      padding: 12px 18px;
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -67,14 +66,14 @@
     }
 
     .brand h1 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--primary);
       line-height: 1.1;
     }
 
     .brand span {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--sky);
       display: block;
       font-weight: 600;
@@ -84,25 +83,25 @@
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .star-counter {
       background: #FFF3CD;
       border: 2px solid var(--accent);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 20px;
       display: flex;
       align-items: center;
       gap: 6px;
       font-weight: 700;
       color: #D35400;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .btn-circle {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: none;
       background: #F1F2F6;
@@ -119,11 +118,11 @@
       transform: scale(0.92);
     }
 
-    /* Screen Management */
+    /* Screen Container */
     .screen {
       display: none;
       flex: 1;
-      padding: 18px;
+      padding: 16px;
       max-width: 900px;
       margin: 0 auto;
       width: 100%;
@@ -139,27 +138,43 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hub Banner / Switcher */
+    /* Back Button */
+    .in-app-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #EDF2F7;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 14px;
+      color: #4A5568;
+      font-size: 0.9rem;
+    }
+
+    /* Hub Selectors */
     .hub-switcher {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .hub-card {
       background: var(--card-bg);
       border-radius: 20px;
-      padding: 20px 14px;
+      padding: 18px 12px;
       text-align: center;
       cursor: pointer;
       border: 3px solid transparent;
       box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .hub-card:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     .hub-card.abc {
@@ -173,17 +188,17 @@
     }
 
     .hub-icon {
-      font-size: 2.8rem;
-      margin-bottom: 8px;
+      font-size: 2.6rem;
+      margin-bottom: 6px;
     }
 
     .hub-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       margin-bottom: 4px;
     }
 
     .hub-card p {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #747D8C;
       font-weight: 600;
     }
@@ -192,7 +207,7 @@
     .section-title {
       font-size: 1.15rem;
       font-weight: 700;
-      margin: 18px 0 12px;
+      margin: 16px 0 12px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -200,8 +215,8 @@
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
     }
 
     .action-card {
@@ -216,11 +231,11 @@
     }
 
     .action-card:active {
-      transform: scale(0.95);
+      transform: scale(0.94);
     }
 
     .action-card .badge {
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 6px;
     }
 
@@ -230,62 +245,55 @@
     }
 
     .action-card span {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       color: #A4B0BE;
       font-weight: 600;
     }
 
-    /* Interactive Tracing Suite */
+    /* Tracing Suite */
     .tracing-container {
       background: #FFFFFF;
       border-radius: 24px;
-      padding: 18px;
+      padding: 16px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.06);
       text-align: center;
+      max-width: 520px;
+      margin: 0 auto;
     }
 
     .tracing-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .toggle-group {
-      display: flex;
-      background: #F1F2F6;
-      border-radius: 14px;
-      padding: 3px;
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: #EDF2F7;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
     }
 
-    .toggle-btn {
-      border: none;
-      background: transparent;
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      border-radius: 11px;
-      cursor: pointer;
-      color: #747D8C;
-    }
-
-    .toggle-btn.active {
-      background: #FFFFFF;
-      color: var(--primary);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #FFA502, #2ED573);
+      transition: width 0.15s ease;
     }
 
     .canvas-wrapper {
       position: relative;
       width: 100%;
-      height: 380px;
+      height: 360px;
       background: #FDFEFE;
       border: 3px dashed #CBD5E0;
       border-radius: 20px;
       touch-action: none;
       overflow: hidden;
       margin: 0 auto 14px;
-      max-width: 480px;
     }
 
     canvas {
@@ -300,7 +308,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 16rem;
+      font-size: 15rem;
       font-weight: 700;
       color: #E2E8F0;
       pointer-events: none;
@@ -343,7 +351,6 @@
       transform: scale(1.08);
     }
 
-    /* Color Selection Bar */
     .color-palette {
       display: flex;
       justify-content: center;
@@ -361,7 +368,7 @@
     }
 
     .color-dot.selected {
-      transform: scale(1.2);
+      transform: scale(1.22);
     }
 
     /* Tap and Count Lab */
@@ -390,8 +397,8 @@
     }
 
     .tappable-item.counted {
-      opacity: 0.3;
-      filter: grayscale(80%);
+      opacity: 0.25;
+      filter: grayscale(90%);
       pointer-events: none;
     }
 
@@ -400,26 +407,94 @@
       to { transform: scale(1); }
     }
 
-    /* Printable Worksheets Store */
-    .store-hero {
-      background: linear-gradient(135deg, #6C5CE7, #a367dc);
+    /* Balloon Pop Game */
+    .balloon-stage {
+      height: 320px;
+      background: linear-gradient(180deg, #A1C4FD 0%, #C2E9FB 100%);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      padding-bottom: 10px;
+    }
+
+    .floating-balloon {
+      font-size: 4rem;
+      cursor: pointer;
+      animation: floatUp 3s infinite ease-in-out alternate;
+      position: relative;
+      text-align: center;
+    }
+
+    .floating-balloon span {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.4rem;
+      font-weight: 700;
       color: #FFFFFF;
-      padding: 24px 18px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); }
+      to { transform: translateY(-70px); }
+    }
+
+    /* Missing Number Puzzle */
+    .puzzle-box {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 20px 0;
+      letter-spacing: 4px;
+    }
+
+    .options-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      border: 3px solid #E2E8F0;
+      background: #FFFFFF;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .option-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* PDF Worksheets Store */
+    .store-hero {
+      background: linear-gradient(135deg, #6C5CE7, #8E44AD);
+      color: #FFFFFF;
+      padding: 22px 16px;
       border-radius: 24px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       text-align: center;
     }
 
     .store-hero h2 {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       margin-bottom: 6px;
     }
 
     .store-hero p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       opacity: 0.9;
-      max-width: 500px;
-      margin: 0 auto;
     }
 
     .bundle-grid {
@@ -441,7 +516,7 @@
 
     .bundle-preview {
       background: #FFF3CD;
-      padding: 24px 12px;
+      padding: 22px 12px;
       text-align: center;
       font-size: 3.5rem;
     }
@@ -503,8 +578,8 @@
       background: #25D366;
       color: #FFFFFF;
       border: none;
-      padding: 8px;
-      border-radius: 10px;
+      padding: 9px;
+      border-radius: 12px;
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
@@ -515,7 +590,7 @@
       margin-top: 8px;
     }
 
-    /* Ad Container (Child Safe, Policy Compliant) */
+    /* Ad Container */
     .ad-banner-wrapper {
       background: #FFFFFF;
       border-top: 1px solid #EDF2F7;
@@ -539,53 +614,30 @@
       color: #A0AEC0;
       padding: 6px;
     }
-
-    /* Bottom Back Button */
-    .in-app-back {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #EDF2F7;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 14px;
-      color: #4A5568;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
+  <!-- Header -->
   <header>
     <div class="brand" onclick="navigateTo('home')">
       <div class="brand-icon">🎈</div>
       <div>
         <h1>QuickLearn</h1>
-        <span>ABC & 123 UNIVERSE</span>
+        <span>ABC & 1-100 MATH</span>
       </div>
     </div>
     <div class="header-controls">
       <div class="star-counter">
         ⭐ <span id="user-stars">0</span>
       </div>
-      <button class="btn-circle" id="btn-install" title="Install App" style="display:none;" onclick="triggerPWAInstall()">
-        📲
-      </button>
-      <button class="btn-circle" onclick="navigateTo('store')" title="Activity Worksheets">
-        📄
-      </button>
-      <button class="btn-circle" onclick="navigateTo('playroom')" title="Toy Playroom">
-        🧸
-      </button>
+      <button class="btn-circle" onclick="navigateTo('store')" title="PDF Store">📄</button>
+      <button class="btn-circle" onclick="navigateTo('playroom')" title="Toy Room">🧸</button>
     </div>
   </header>
 
-  <!-- Screen 1: Master Hub (Home) -->
+  <!-- Screen 1: Master Hub -->
   <main id="screen-home" class="screen active">
-    <!-- Hub Selection -->
     <div class="hub-switcher">
       <div class="hub-card abc" onclick="navigateTo('abc-suite')">
         <div class="hub-icon">🅰️</div>
@@ -595,42 +647,41 @@
       <div class="hub-card numbers" onclick="navigateTo('numbers-suite')">
         <div class="hub-icon">🔢</div>
         <h3>123 Planet</h3>
-        <p>1 to 100 Numbers & Math</p>
+        <p>1 to 100 Numbers & Counting</p>
       </div>
     </div>
 
-    <!-- Quick Access Modules -->
-    <div class="section-title">✨ Recommended Activities</div>
+    <div class="section-title">✨ Recommended Kids Activities</div>
     <div class="cards-grid">
       <div class="action-card" onclick="openTracingLetter('A')">
         <div class="badge">✏️</div>
         <h4>Letter Trace</h4>
-        <span>A to Z Practice</span>
+        <span>Auto-Next Tracing</span>
       </div>
       <div class="action-card" onclick="openTracingNumber(1)">
         <div class="badge">✍️</div>
         <h4>Number Trace</h4>
-        <span>1 to 100 Guides</span>
+        <span>1 to 100 Guided</span>
       </div>
-      <div class="action-card" onclick="navigateTo('tap-count')">
+      <div class="action-card" onclick="openTapCountGame()">
         <div class="badge">🍎</div>
         <h4>Tap & Count</h4>
-        <span>Fun Counting Lab</span>
+        <span>Counting Lab</span>
       </div>
-      <div class="action-card" onclick="navigateTo('balloon-game')">
+      <div class="action-card" onclick="openBalloonGame()">
         <div class="badge">🎈</div>
         <h4>Balloon Pop</h4>
-        <span>Speed Quiz</span>
+        <span>Pop & Learn</span>
       </div>
-      <div class="action-card" onclick="navigateTo('doodle-pad')">
+      <div class="action-card" onclick="openMissingNumbersGame()">
+        <div class="badge">🧩</div>
+        <h4>Missing Number</h4>
+        <span>Number Quiz</span>
+      </div>
+      <div class="action-card" onclick="openGlowPad()">
         <div class="badge">🎨</div>
         <h4>Glow Pad</h4>
         <span>Free Hand Art</span>
-      </div>
-      <div class="action-card" onclick="navigateTo('store')">
-        <div class="badge">🖨️</div>
-        <h4>PDF Store</h4>
-        <span>Print at Home</span>
       </div>
     </div>
   </main>
@@ -639,9 +690,9 @@
   <section id="screen-abc-suite" class="screen">
     <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
     <div class="section-title">🅰️ Choose Letter (A to Z)</div>
-    <div class="toggle-group" style="margin-bottom: 14px; width: fit-content;">
-      <button class="toggle-btn active" id="case-upper-btn" onclick="toggleLetterCase(true)">UPPERCASE</button>
-      <button class="toggle-btn" id="case-lower-btn" onclick="toggleLetterCase(false)">lowercase</button>
+    <div style="margin-bottom: 12px; display: flex; gap: 8px;">
+      <button class="in-app-back" id="case-upper-btn" style="background:var(--primary); color:#FFF; margin-bottom:0;" onclick="toggleLetterCase(true)">UPPERCASE</button>
+      <button class="in-app-back" id="case-lower-btn" style="margin-bottom:0;" onclick="toggleLetterCase(false)">lowercase</button>
     </div>
     <div class="horizontal-slider" id="abc-selector-bar"></div>
 
@@ -652,31 +703,35 @@
   <!-- Screen 3: 123 Planet Hub -->
   <section id="screen-numbers-suite" class="screen">
     <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
-    <div class="section-title">🔢 Select Number (1 to 100)</div>
+    <div class="section-title">🔢 Select Any Number (1 to 100)</div>
     <div class="horizontal-slider" id="number-selector-bar"></div>
 
-    <div class="section-title" style="margin-top: 24px;">🧮 Math & Counting Adventures</div>
+    <div class="section-title" style="margin-top: 24px;">🧮 Math Adventures</div>
     <div class="cards-grid">
-      <div class="action-card" onclick="navigateTo('tap-count')">
+      <div class="action-card" onclick="openTapCountGame()">
         <div class="badge">⭐</div>
         <h4>Object Counting</h4>
         <span>Touch to Count</span>
       </div>
-      <div class="action-card" onclick="navigateTo('missing-numbers')">
+      <div class="action-card" onclick="openMissingNumbersGame()">
         <div class="badge">🧩</div>
         <h4>Missing Numbers</h4>
-        <span>Find the Gap</span>
+        <span>Sequence Puzzle</span>
       </div>
     </div>
   </section>
 
-  <!-- Screen 4: Unified Tracing Suite -->
+  <!-- Screen 4: Real-Time Tracing Engine (Auto-Next Enabled) -->
   <section id="screen-tracing" class="screen">
     <button class="in-app-back" onclick="handleTracingBack()">← Back</button>
     <div class="tracing-container">
       <div class="tracing-header">
-        <h3 id="tracing-title" style="font-size: 1.3rem;">Trace Letter</h3>
+        <h3 id="tracing-title" style="font-size: 1.25rem;">Trace Character</h3>
         <button class="btn-circle" onclick="speakCurrentItem()" title="Pronounce">🔊</button>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="trace-progress-bar"></div>
       </div>
 
       <div class="color-palette">
@@ -694,8 +749,8 @@
 
       <div style="display: flex; gap: 10px; justify-content: center;">
         <button class="in-app-back" style="margin-bottom:0;" onclick="clearTracingCanvas()">🗑️ Clear</button>
-        <button class="btn-checkout" style="width: auto; padding: 8px 24px;" onclick="completeTracingActivity()">
-          ⭐ Complete
+        <button class="btn-checkout" style="width: auto; padding: 8px 24px;" onclick="advanceNextItem(true)">
+          ➡️ Next
         </button>
       </div>
     </div>
@@ -703,25 +758,62 @@
 
   <!-- Screen 5: Tap and Count Lab -->
   <section id="screen-tap-count" class="screen">
-    <button class="in-app-back" onclick="navigateTo('numbers-suite')">← Back</button>
+    <button class="in-app-back" onclick="navigateTo('home')">← Back</button>
     <div class="tracing-container">
       <h3 style="font-size: 1.3rem; margin-bottom: 6px;">Tap each item to count!</h3>
       <p style="color: #718096; font-size: 0.85rem; margin-bottom: 14px;" id="count-target-text">Target: 5</p>
-
       <div class="count-items-container" id="tap-items-box"></div>
-
       <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);" id="count-status-text">
         Counted: 0
       </div>
     </div>
   </section>
 
-  <!-- Screen 6: Printable Activity PDF Store -->
+  <!-- Screen 6: Balloon Pop Game -->
+  <section id="screen-balloon" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back</button>
+    <div class="tracing-container">
+      <h3 style="font-size: 1.3rem; margin-bottom: 4px;">Balloon Pop!</h3>
+      <p style="color: #718096; font-size: 0.85rem; margin-bottom: 12px;" id="balloon-mission">Pop: A</p>
+      <div class="balloon-stage" id="balloon-field"></div>
+      <button class="in-app-back" style="margin-bottom:0;" onclick="generateBalloonRound()">🔄 New Round</button>
+    </div>
+  </section>
+
+  <!-- Screen 7: Missing Numbers Puzzle -->
+  <section id="screen-missing-numbers" class="screen">
+    <button class="in-app-back" onclick="navigateTo('numbers-suite')">← Back</button>
+    <div class="tracing-container">
+      <h3 style="font-size: 1.3rem;">What number is missing?</h3>
+      <div class="puzzle-box" id="puzzle-sequence-display">1 , 2 , [ ? ] , 4</div>
+      <div class="options-row" id="puzzle-options-box"></div>
+    </div>
+  </section>
+
+  <!-- Screen 8: Glow Doodle Pad -->
+  <section id="screen-doodle" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back</button>
+    <div class="tracing-container">
+      <h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎨 Free Hand Glow Pad</h3>
+      <div class="color-palette">
+        <div class="color-dot selected" style="background: #00F0FF;" onclick="selectBrushColor('#00F0FF', this)"></div>
+        <div class="color-dot" style="background: #FF007F;" onclick="selectBrushColor('#FF007F', this)"></div>
+        <div class="color-dot" style="background: #39FF14;" onclick="selectBrushColor('#39FF14', this)"></div>
+        <div class="color-dot" style="background: #FFE600;" onclick="selectBrushColor('#FFE600', this)"></div>
+      </div>
+      <div class="canvas-wrapper" style="background: #1A1A2E;">
+        <canvas id="doodleCanvas"></canvas>
+      </div>
+      <button class="in-app-back" style="margin-bottom:0;" onclick="clearDoodleCanvas()">🗑️ Clear Pad</button>
+    </div>
+  </section>
+
+  <!-- Screen 9: PDF Activity Store -->
   <section id="screen-store" class="screen">
     <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
     <div class="store-hero">
-      <h2>🖨️ Home Activity Worksheets</h2>
-      <p>Printable high-resolution PDF learning kits for offline pencil & paper practice.</p>
+      <h2>🖨️ Printable Activity Worksheets</h2>
+      <p>High-resolution PDF workbooks for offline pen-and-paper tracing and coloring.</p>
     </div>
 
     <div class="bundle-grid">
@@ -730,16 +822,10 @@
         <div class="bundle-preview">🔤</div>
         <div class="bundle-info">
           <h3>A-Z Tracing Master Workbook</h3>
-          <p>52 printable worksheets with uppercase, lowercase, stroke lines, and coloring drawings.</p>
-          <div class="price-row">
-            <span class="price-tag">$2.99 / ₹99</span>
-          </div>
-          <button class="btn-checkout" onclick="redirectToStoreCheckout('az-workbook')">
-            💳 Buy & Instant Download
-          </button>
-          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('A-Z Tracing Master Workbook')">
-            💬 Inquire on WhatsApp
-          </button>
+          <p>52 printable worksheets with uppercase, lowercase, guided strokes, and coloring items.</p>
+          <div class="price-row"><span class="price-tag">$2.99 / ₹99</span></div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('az-workbook')">💳 Buy & Instant Download</button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('A-Z Tracing Workbook')">💬 Inquire on WhatsApp</button>
         </div>
       </div>
 
@@ -748,16 +834,10 @@
         <div class="bundle-preview">🔢</div>
         <div class="bundle-info">
           <h3>1 to 100 Math & Number Kit</h3>
-          <p>Complete counting activities, number tracing sheets, object matching, and missing numbers.</p>
-          <div class="price-row">
-            <span class="price-tag">$2.99 / ₹99</span>
-          </div>
-          <button class="btn-checkout" onclick="redirectToStoreCheckout('100-numbers-kit')">
-            💳 Buy & Instant Download
-          </button>
-          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('1 to 100 Math & Number Kit')">
-            💬 Inquire on WhatsApp
-          </button>
+          <p>100+ pages of number writing, sequence puzzles, tap counting, and missing math sheets.</p>
+          <div class="price-row"><span class="price-tag">$2.99 / ₹99</span></div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('100-numbers-kit')">💳 Buy & Instant Download</button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('1-100 Numbers Kit')">💬 Inquire on WhatsApp</button>
         </div>
       </div>
 
@@ -766,38 +846,30 @@
         <div class="bundle-preview">🎁</div>
         <div class="bundle-info">
           <h3>Mega Early Learner Combo</h3>
-          <p>Complete Alphabet + 1-100 Numbers + Colors & Shapes printable super-pack (120+ pages).</p>
-          <div class="price-row">
-            <span class="price-tag">$4.99 / ₹149</span>
-          </div>
-          <button class="btn-checkout" onclick="redirectToStoreCheckout('mega-combo')">
-            💳 Buy & Instant Download
-          </button>
-          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('Mega Early Learner Combo Bundle')">
-            💬 Inquire on WhatsApp
-          </button>
+          <p>Complete Alphabet + 1-100 Numbers + Colors & Shapes mega bundle (150+ pages).</p>
+          <div class="price-row"><span class="price-tag">$4.99 / ₹149</span></div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('mega-combo')">💳 Buy & Instant Download</button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('Mega Early Learner Combo')">💬 Inquire on WhatsApp</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Screen 7: Toy Playroom & Rewards -->
+  <!-- Screen 10: Toy Room -->
   <section id="screen-playroom" class="screen">
     <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
     <div class="tracing-container">
       <h3>🧸 Virtual Toy Playroom</h3>
-      <p style="color: #718096; font-size: 0.85rem; margin-bottom: 14px;">
-        Use your earned stars to unlock special toys!
-      </p>
+      <p style="color: #718096; font-size: 0.85rem; margin-bottom: 14px;">Collect stars from tracing to unlock special toys!</p>
       <div class="cards-grid" id="toys-grid"></div>
     </div>
   </section>
 
-  <!-- Safe Advertisement Slot Container -->
+  <!-- Child-Safe Sponsor Ad Container -->
   <div class="ad-banner-wrapper">
     <div class="ad-box">
-      <span>CHILD-FRIENDLY SPONSOR CONTAINER</span>
-      <span>AdSense Banner / Family Safe Ad Placement Space</span>
+      <span>CHILD-SAFE SPONSOR PLACEMENT</span>
+      <span>Policy-Compliant Google AdSense Container</span>
     </div>
   </div>
 
@@ -806,14 +878,14 @@
        1. STORE, WHATSAPP & MONETIZATION SETTINGS
        ========================================================= */
     const STORE_PAYMENT_URL = "https://superprofile.bio/sssarviceaisolution";
-    const WHATSAPP_CONTACT_NUMBER = "919876543210"; // Country code + Mobile without +
+    const WHATSAPP_CONTACT_NUMBER = "919876543210"; 
 
     function redirectToStoreCheckout(itemSlug) {
       window.open(STORE_PAYMENT_URL, '_blank');
     }
 
     function inquireOnWhatsApp(productTitle) {
-      const msg = encodeURIComponent(`Hi, I want to purchase the "${productTitle}" PDF download pack.`);
+      const msg = encodeURIComponent(`Hi! I would like to buy the "${productTitle}" PDF download pack.`);
       window.open(`https://wa.me/${WHATSAPP_CONTACT_NUMBER}?text=${msg}`, '_blank');
     }
 
@@ -876,7 +948,7 @@
           const gain = this.ctx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -889,7 +961,7 @@
           window.speechSynthesis.cancel();
           const utterance = new SpeechSynthesisUtterance(text);
           utterance.lang = 'en-US';
-          utterance.rate = 0.9;
+          utterance.rate = 0.92;
           window.speechSynthesis.speak(utterance);
         }
       }
@@ -925,7 +997,7 @@
     }
 
     /* =========================================================
-       5. INITIALIZE ABC & 1-100 NUMBER REPOSITORIES
+       5. INITIALIZE ABC & 1-100 NUMBER SELECTORS
        ========================================================= */
     function initABCBar() {
       const bar = document.getElementById('abc-selector-bar');
@@ -959,8 +1031,10 @@
 
     function toggleLetterCase(upper) {
       isUppercase = upper;
-      document.getElementById('case-upper-btn').classList.toggle('active', upper);
-      document.getElementById('case-lower-btn').classList.toggle('active', !upper);
+      document.getElementById('case-upper-btn').style.background = upper ? 'var(--primary)' : '#EDF2F7';
+      document.getElementById('case-upper-btn').style.color = upper ? '#FFFFFF' : '#4A5568';
+      document.getElementById('case-lower-btn').style.background = !upper ? 'var(--primary)' : '#EDF2F7';
+      document.getElementById('case-lower-btn').style.color = !upper ? '#FFFFFF' : '#4A5568';
       initABCBar();
     }
 
@@ -977,12 +1051,14 @@
     }
 
     /* =========================================================
-       6. INTERACTIVE TRACING ENGINE (CANVAS)
+       6. REAL-TIME TRACING ENGINE & AUTO-NEXT
        ========================================================= */
     const canvas = document.getElementById('tracingCanvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     let isDrawing = false;
     let brushColor = '#FF4757';
+    let drawnDrawnPointsCount = 0;
+    let isCharacterCompleted = false;
 
     function setupCanvasDPI() {
       const rect = canvas.getBoundingClientRect();
@@ -992,7 +1068,7 @@
       ctx.scale(dpr, dpr);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.lineWidth = 24;
+      ctx.lineWidth = 26;
     }
 
     function getCanvasCoordinates(e) {
@@ -1008,6 +1084,7 @@
     function startDraw(e) {
       e.preventDefault();
       AudioEngine.init();
+      if (isCharacterCompleted) return;
       isDrawing = true;
       const pos = getCanvasCoordinates(e);
       ctx.beginPath();
@@ -1016,11 +1093,20 @@
     }
 
     function drawMove(e) {
-      if (!isDrawing) return;
+      if (!isDrawing || isCharacterCompleted) return;
       e.preventDefault();
       const pos = getCanvasCoordinates(e);
       ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
+
+      drawnDrawnPointsCount++;
+      const progressPercent = Math.min(100, Math.floor((drawnDrawnPointsCount / 40) * 100));
+      document.getElementById('trace-progress-bar').style.width = progressPercent + '%';
+
+      if (progressPercent >= 100 && !isCharacterCompleted) {
+        isCharacterCompleted = true;
+        triggerAutoNextCelebration();
+      }
     }
 
     function stopDraw() {
@@ -1037,6 +1123,9 @@
 
     function clearTracingCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawnDrawnPointsCount = 0;
+      isCharacterCompleted = false;
+      document.getElementById('trace-progress-bar').style.width = '0%';
     }
 
     function selectBrushColor(color, el) {
@@ -1056,11 +1145,12 @@
         clearTracingCanvas();
       }, 50);
       speakCurrentItem();
+      initABCBar();
     }
 
     function openTracingNumber(num) {
       currentMode = 'number';
-      currentActiveItem = num;
+      currentActiveItem = parseInt(num, 10);
       document.getElementById('tracing-title').textContent = `Trace Number ${num}`;
       document.getElementById('guide-char-display').textContent = num;
       navigateTo('tracing');
@@ -1069,6 +1159,7 @@
         clearTracingCanvas();
       }, 50);
       speakCurrentItem();
+      initNumberBar();
     }
 
     function speakCurrentItem() {
@@ -1080,16 +1171,37 @@
       }
     }
 
-    function completeTracingActivity() {
+    function triggerAutoNextCelebration() {
       userStars += 5;
       updateStarDisplay();
-      AudioEngine.playTone(587, 'triangle', 0.3);
+      AudioEngine.playTone(523, 'triangle', 0.15);
+      setTimeout(() => AudioEngine.playTone(659, 'triangle', 0.25), 150);
+
       if (typeof confetti === 'function') {
         confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
       }
+
       setTimeout(() => {
-        handleTracingBack();
+        advanceNextItem(false);
       }, 1000);
+    }
+
+    function advanceNextItem(manual = false) {
+      if (currentMode === 'letter') {
+        const charCode = currentActiveItem.toUpperCase().charCodeAt(0);
+        if (charCode < 90) { // Up to Z
+          const nextChar = String.fromCharCode(charCode + 1);
+          openTracingLetter(nextChar);
+        } else {
+          openTracingLetter('A');
+        }
+      } else {
+        if (currentActiveItem < 100) {
+          openTracingNumber(currentActiveItem + 1);
+        } else {
+          openTracingNumber(1);
+        }
+      }
     }
 
     /* =========================================================
@@ -1097,6 +1209,11 @@
        ========================================================= */
     let countTarget = 5;
     let countedSoFar = 0;
+
+    function openTapCountGame() {
+      navigateTo('tap-count');
+      startCountGame();
+    }
 
     function startCountGame() {
       countTarget = Math.floor(Math.random() * 8) + 2;
@@ -1124,9 +1241,9 @@
             if (countedSoFar === countTarget) {
               userStars += 10;
               updateStarDisplay();
-              AudioEngine.speak(`Great job! That is ${countTarget}!`);
+              AudioEngine.speak(`Awesome! You counted ${countTarget}!`);
               if (typeof confetti === 'function') {
-                confetti({ particleCount: 100, spread: 70 });
+                confetti({ particleCount: 90, spread: 70 });
               }
               setTimeout(startCountGame, 2000);
             }
@@ -1137,7 +1254,168 @@
     }
 
     /* =========================================================
-       8. TOY PLAYROOM & PERSISTENCE
+       8. BALLOON POP GAME
+       ========================================================= */
+    let targetBalloonChar = 'A';
+
+    function openBalloonGame() {
+      navigateTo('balloon');
+      generateBalloonRound();
+    }
+
+    function generateBalloonRound() {
+      const letters = ALPHABET_DATA.map(x => x.u);
+      targetBalloonChar = letters[Math.floor(Math.random() * letters.length)];
+      document.getElementById('balloon-mission').textContent = `Find & Pop: Letter ${targetBalloonChar}`;
+      AudioEngine.speak(`Pop letter ${targetBalloonChar}`);
+
+      const stage = document.getElementById('balloon-field');
+      stage.innerHTML = '';
+
+      let choices = [targetBalloonChar];
+      while (choices.length < 3) {
+        const r = letters[Math.floor(Math.random() * letters.length)];
+        if (!choices.includes(r)) choices.push(r);
+      }
+      choices.sort(() => Math.random() - 0.5);
+
+      const balloons = ['🎈', '🔴', '🟣'];
+      choices.forEach((char, idx) => {
+        const b = document.createElement('div');
+        b.className = 'floating-balloon';
+        b.innerHTML = `${balloons[idx]}<span>${char}</span>`;
+        b.onclick = () => {
+          if (char === targetBalloonChar) {
+            AudioEngine.playTone(600, 'triangle', 0.2);
+            userStars += 5;
+            updateStarDisplay();
+            b.style.display = 'none';
+            if (typeof confetti === 'function') {
+              confetti({ particleCount: 50, spread: 50 });
+            }
+            AudioEngine.speak(`Great! That is ${char}!`);
+            setTimeout(generateBalloonRound, 1500);
+          } else {
+            AudioEngine.playTone(200, 'sawtooth', 0.2);
+            AudioEngine.speak(`Try again! Find ${targetBalloonChar}`);
+          }
+        };
+        stage.appendChild(b);
+      });
+    }
+
+    /* =========================================================
+       9. MISSING NUMBERS PUZZLE
+       ========================================================= */
+    function openMissingNumbersGame() {
+      navigateTo('missing-numbers');
+      generateMissingNumberPuzzle();
+    }
+
+    function generateMissingNumberPuzzle() {
+      const start = Math.floor(Math.random() * 15) + 1;
+      const missingIndex = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+      const sequence = [start, start + 1, start + 2, start + 3];
+      const correctAns = sequence[missingIndex];
+
+      let displayArr = [...sequence];
+      displayArr[missingIndex] = '[ ? ]';
+      document.getElementById('puzzle-sequence-display').textContent = displayArr.join(' , ');
+
+      const optionsBox = document.getElementById('puzzle-options-box');
+      optionsBox.innerHTML = '';
+
+      let options = [correctAns, correctAns + 1, Math.max(1, correctAns - 1)];
+      options.sort(() => Math.random() - 0.5);
+
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (opt === correctAns) {
+            AudioEngine.playTone(550, 'sine', 0.2);
+            userStars += 5;
+            updateStarDisplay();
+            AudioEngine.speak(`Correct! The missing number is ${correctAns}`);
+            if (typeof confetti === 'function') {
+              confetti({ particleCount: 60, spread: 60 });
+            }
+            setTimeout(generateMissingNumberPuzzle, 1600);
+          } else {
+            AudioEngine.playTone(180, 'sawtooth', 0.2);
+            AudioEngine.speak(`Oops! Try another number.`);
+          }
+        };
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    /* =========================================================
+       10. GLOW DOODLE PAD
+       ========================================================= */
+    const dCanvas = document.getElementById('doodleCanvas');
+    const dCtx = dCanvas.getContext('2d');
+    let isDoodling = false;
+
+    function openGlowPad() {
+      navigateTo('doodle');
+      setTimeout(setupDoodleDPI, 50);
+    }
+
+    function setupDoodleDPI() {
+      const rect = dCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      dCanvas.width = rect.width * dpr;
+      dCanvas.height = rect.height * dpr;
+      dCtx.scale(dpr, dpr);
+      dCtx.lineCap = 'round';
+      dCtx.lineJoin = 'round';
+      dCtx.lineWidth = 14;
+      dCtx.shadowBlur = 12;
+      dCtx.shadowColor = brushColor;
+    }
+
+    function startDoodle(e) {
+      e.preventDefault();
+      isDoodling = true;
+      const rect = dCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      dCtx.beginPath();
+      dCtx.moveTo(clientX - rect.left, clientY - rect.top);
+      dCtx.strokeStyle = brushColor;
+      dCtx.shadowColor = brushColor;
+    }
+
+    function moveDoodle(e) {
+      if (!isDoodling) return;
+      e.preventDefault();
+      const rect = dCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      dCtx.lineTo(clientX - rect.left, clientY - rect.top);
+      dCtx.stroke();
+    }
+
+    function stopDoodle() {
+      isDoodling = false;
+    }
+
+    dCanvas.addEventListener('mousedown', startDoodle);
+    dCanvas.addEventListener('mousemove', moveDoodle);
+    window.addEventListener('mouseup', stopDoodle);
+
+    dCanvas.addEventListener('touchstart', startDoodle, { passive: false });
+    dCanvas.addEventListener('touchmove', moveDoodle, { passive: false });
+    window.addEventListener('touchend', stopDoodle);
+
+    function clearDoodleCanvas() {
+      dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
+    }
+
+    /* =========================================================
+       11. TOY PLAYROOM & PERSISTENCE
        ========================================================= */
     const TOYS = [
       { name: 'Teddy Bear', icon: '🧸', price: 15 },
@@ -1162,7 +1440,7 @@
         const card = document.createElement('div');
         card.className = 'action-card';
         card.innerHTML = `
-          <div class="badge" style="${isOwned ? '' : 'filter: grayscale(100%); opacity:0.5;'}">${toy.icon}</div>
+          <div class="badge" style="${isOwned ? '' : 'filter: grayscale(100%); opacity:0.4;'}">${toy.icon}</div>
           <h4>${toy.name}</h4>
           <span>${isOwned ? '✅ Unlocked' : `⭐ ${toy.price} Stars`}</span>
         `;
@@ -1174,7 +1452,7 @@
               localStorage.setItem('quicklearn_toys', JSON.stringify(unlocked));
               updateStarDisplay();
               initPlayroom();
-              AudioEngine.speak(`You unlocked the ${toy.name}!`);
+              AudioEngine.speak(`Congratulations! You unlocked the ${toy.name}!`);
             } else {
               AudioEngine.speak(`You need ${toy.price - userStars} more stars!`);
             }
@@ -1185,36 +1463,17 @@
     }
 
     /* =========================================================
-       9. PWA INSTALL HANDLER
-       ========================================================= */
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const installBtn = document.getElementById('btn-install');
-      if (installBtn) installBtn.style.display = 'flex';
-    });
-
-    function triggerPWAInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          deferredPrompt = null;
-          document.getElementById('btn-install').style.display = 'none';
-        });
-      }
-    }
-
-    /* =========================================================
-       10. APPLICATION BOOTSTRAP
+       12. APPLICATION BOOTSTRAP
        ========================================================= */
     window.addEventListener('DOMContentLoaded', () => {
       updateStarDisplay();
       initABCBar();
       initNumberBar();
       initPlayroom();
-      startCountGame();
-      window.addEventListener('resize', setupCanvasDPI);
+      window.addEventListener('resize', () => {
+        setupCanvasDPI();
+        setupDoodleDPI();
+      });
     });
   </script>
 </body>
