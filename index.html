@@ -1,1245 +1,1221 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QuickLearn Kids - Tracing, Phonics, Voice & Playroom</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Fredoka & Nunito -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QuickLearn Kids - Complete Alphabet & 1-100 Numbers World</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FF4757">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <style>
-        :root {
-            --font-main: 'Fredoka', 'Nunito', sans-serif;
-        }
-        * {
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-        }
-        body {
-            font-family: var(--font-main);
-            touch-action: manipulation;
-            overscroll-behavior-y: none;
-        }
+  <style>
+    :root {
+      --primary: #FF4757;
+      --secondary: #2ED573;
+      --accent: #FFA502;
+      --sky: #1E90FF;
+      --purple: #9B59B6;
+      --bg: #FFF9F0;
+      --card-bg: #FFFFFF;
+      --text: #2F3542;
+    }
 
-        /* 3D Tactile Buttons */
-        .btn-bouncy {
-            transition: all 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
-        }
-        .btn-bouncy:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
 
-        /* Animations */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
-        }
-        .animate-float {
-            animation: floatSlow 3s ease-in-out infinite;
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
 
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.8); }
-        }
-        .animate-glow {
-            animation: pulseGlow 2s infinite;
-        }
+    /* Header Navigation */
+    header {
+      background: #FFFFFF;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        /* Custom Scrollbar for Alphabet Drawer */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
 
-        /* Canvas Touch Layer */
-        canvas {
-            touch-action: none;
-        }
-    </style>
+    .brand-icon {
+      font-size: 2rem;
+    }
+
+    .brand h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .brand span {
+      font-size: 0.75rem;
+      color: var(--sky);
+      display: block;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .star-counter {
+      background: #FFF3CD;
+      border: 2px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: #D35400;
+      font-size: 1rem;
+    }
+
+    .btn-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #F1F2F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+      transition: transform 0.1s ease;
+    }
+
+    .btn-circle:active {
+      transform: scale(0.92);
+    }
+
+    /* Screen Management */
+    .screen {
+      display: none;
+      flex: 1;
+      padding: 18px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.25s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hub Banner / Switcher */
+    .hub-switcher {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .hub-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px 14px;
+      text-align: center;
+      cursor: pointer;
+      border: 3px solid transparent;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .hub-card:active {
+      transform: scale(0.97);
+    }
+
+    .hub-card.abc {
+      border-color: #FF7675;
+      background: linear-gradient(180deg, #FFF0F0 0%, #FFFFFF 100%);
+    }
+
+    .hub-card.numbers {
+      border-color: #55EFC4;
+      background: linear-gradient(180deg, #E8FDF8 0%, #FFFFFF 100%);
+    }
+
+    .hub-icon {
+      font-size: 2.8rem;
+      margin-bottom: 8px;
+    }
+
+    .hub-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .hub-card p {
+      font-size: 0.8rem;
+      color: #747D8C;
+      font-weight: 600;
+    }
+
+    /* Activity Grid */
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 18px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 14px;
+    }
+
+    .action-card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 16px 10px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+      border: 2px solid #EDF2F7;
+      transition: all 0.15s ease;
+    }
+
+    .action-card:active {
+      transform: scale(0.95);
+    }
+
+    .action-card .badge {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .action-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .action-card span {
+      font-size: 0.7rem;
+      color: #A4B0BE;
+      font-weight: 600;
+    }
+
+    /* Interactive Tracing Suite */
+    .tracing-container {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .tracing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .toggle-group {
+      display: flex;
+      background: #F1F2F6;
+      border-radius: 14px;
+      padding: 3px;
+    }
+
+    .toggle-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 11px;
+      cursor: pointer;
+      color: #747D8C;
+    }
+
+    .toggle-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      background: #FDFEFE;
+      border: 3px dashed #CBD5E0;
+      border-radius: 20px;
+      touch-action: none;
+      overflow: hidden;
+      margin: 0 auto 14px;
+      max-width: 480px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+
+    .floating-guide-char {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 16rem;
+      font-weight: 700;
+      color: #E2E8F0;
+      pointer-events: none;
+      line-height: 1;
+      font-family: Arial, sans-serif;
+    }
+
+    .horizontal-slider {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 4px;
+      scrollbar-width: none;
+    }
+
+    .horizontal-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-item {
+      flex: 0 0 auto;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: #FFFFFF;
+      border: 2px solid #E2E8F0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.03);
+    }
+
+    .pill-item.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      transform: scale(1.08);
+    }
+
+    /* Color Selection Bar */
+    .color-palette {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .color-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .color-dot.selected {
+      transform: scale(1.2);
+    }
+
+    /* Tap and Count Lab */
+    .count-items-container {
+      background: #F8FAFC;
+      border-radius: 20px;
+      min-height: 200px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .tappable-item {
+      font-size: 3rem;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .tappable-item:active {
+      transform: scale(1.35) rotate(10deg);
+    }
+
+    .tappable-item.counted {
+      opacity: 0.3;
+      filter: grayscale(80%);
+      pointer-events: none;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    /* Printable Worksheets Store */
+    .store-hero {
+      background: linear-gradient(135deg, #6C5CE7, #a367dc);
+      color: #FFFFFF;
+      padding: 24px 18px;
+      border-radius: 24px;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    .store-hero h2 {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .store-hero p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .bundle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .bundle-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      border: 2px solid #EDF2F7;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bundle-preview {
+      background: #FFF3CD;
+      padding: 24px 12px;
+      text-align: center;
+      font-size: 3.5rem;
+    }
+
+    .bundle-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .bundle-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .bundle-info p {
+      font-size: 0.8rem;
+      color: #718096;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .price-tag {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .btn-checkout {
+      background: var(--secondary);
+      color: #FFFFFF;
+      border: none;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(46, 213, 115, 0.3);
+    }
+
+    .btn-checkout:active {
+      transform: scale(0.97);
+    }
+
+    .btn-whatsapp-inquire {
+      background: #25D366;
+      color: #FFFFFF;
+      border: none;
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* Ad Container (Child Safe, Policy Compliant) */
+    .ad-banner-wrapper {
+      background: #FFFFFF;
+      border-top: 1px solid #EDF2F7;
+      padding: 10px;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .ad-box {
+      max-width: 728px;
+      min-height: 60px;
+      margin: 0 auto;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E0;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #A0AEC0;
+      padding: 6px;
+    }
+
+    /* Bottom Back Button */
+    .in-app-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #EDF2F7;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 14px;
+      color: #4A5568;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-sky-100 via-purple-50 to-amber-50 min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden">
+<body>
 
-    <!-- GLOBAL AUDIO UNLOCK PILL (Dismisses on first click/touch) -->
-    <div id="audioUnlockPill" onclick="unlockAudioEngine()" class="fixed top-2 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2 cursor-pointer transition transform hover:scale-105 active:scale-95 animate-bounce">
-        <span>🔊 Tap here to Enable Sound & Voices</span>
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand" onclick="navigateTo('home')">
+      <div class="brand-icon">🎈</div>
+      <div>
+        <h1>QuickLearn</h1>
+        <span>ABC & 123 UNIVERSE</span>
+      </div>
+    </div>
+    <div class="header-controls">
+      <div class="star-counter">
+        ⭐ <span id="user-stars">0</span>
+      </div>
+      <button class="btn-circle" id="btn-install" title="Install App" style="display:none;" onclick="triggerPWAInstall()">
+        📲
+      </button>
+      <button class="btn-circle" onclick="navigateTo('store')" title="Activity Worksheets">
+        📄
+      </button>
+      <button class="btn-circle" onclick="navigateTo('playroom')" title="Toy Playroom">
+        🧸
+      </button>
+    </div>
+  </header>
+
+  <!-- Screen 1: Master Hub (Home) -->
+  <main id="screen-home" class="screen active">
+    <!-- Hub Selection -->
+    <div class="hub-switcher">
+      <div class="hub-card abc" onclick="navigateTo('abc-suite')">
+        <div class="hub-icon">🅰️</div>
+        <h3>ABC World</h3>
+        <p>A to Z Letters & Phonics</p>
+      </div>
+      <div class="hub-card numbers" onclick="navigateTo('numbers-suite')">
+        <div class="hub-icon">🔢</div>
+        <h3>123 Planet</h3>
+        <p>1 to 100 Numbers & Math</p>
+      </div>
     </div>
 
-    <!-- MAIN APP HEADER -->
-    <header class="w-full bg-white/95 backdrop-blur-md border-b-4 border-amber-300 py-2.5 px-3 sm:px-6 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-5xl mx-auto flex items-center justify-between">
-            
-            <!-- Logo & Back Button Combo -->
-            <div class="flex items-center gap-2">
-                <button id="headerBackBtn" onclick="navigateHome()" class="hidden bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold px-3 py-1.5 rounded-2xl border-2 border-slate-300 btn-bouncy text-xs sm:text-sm flex items-center gap-1.5 mr-1">
-                    <span>⬅</span>
-                    <span>Home</span>
-                </button>
-                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateHome()">
-                    <span class="text-3xl animate-float">🎈</span>
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-black bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-none tracking-tight">
-                            QuickLearn
-                        </h1>
-                        <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider block">Kids Preschool</span>
-                    </div>
-                </div>
-            </div>
+    <!-- Quick Access Modules -->
+    <div class="section-title">✨ Recommended Activities</div>
+    <div class="cards-grid">
+      <div class="action-card" onclick="openTracingLetter('A')">
+        <div class="badge">✏️</div>
+        <h4>Letter Trace</h4>
+        <span>A to Z Practice</span>
+      </div>
+      <div class="action-card" onclick="openTracingNumber(1)">
+        <div class="badge">✍️</div>
+        <h4>Number Trace</h4>
+        <span>1 to 100 Guides</span>
+      </div>
+      <div class="action-card" onclick="navigateTo('tap-count')">
+        <div class="badge">🍎</div>
+        <h4>Tap & Count</h4>
+        <span>Fun Counting Lab</span>
+      </div>
+      <div class="action-card" onclick="navigateTo('balloon-game')">
+        <div class="badge">🎈</div>
+        <h4>Balloon Pop</h4>
+        <span>Speed Quiz</span>
+      </div>
+      <div class="action-card" onclick="navigateTo('doodle-pad')">
+        <div class="badge">🎨</div>
+        <h4>Glow Pad</h4>
+        <span>Free Hand Art</span>
+      </div>
+      <div class="action-card" onclick="navigateTo('store')">
+        <div class="badge">🖨️</div>
+        <h4>PDF Store</h4>
+        <span>Print at Home</span>
+      </div>
+    </div>
+  </main>
 
-            <!-- Stats & Settings Toolbar -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                
-                <!-- Daily Streak Badge -->
-                <div class="flex items-center gap-1 bg-rose-50 border-2 border-rose-300 px-2.5 py-1 rounded-2xl shadow-inner" title="Daily Learning Streak">
-                    <span class="text-base">🔥</span>
-                    <span id="streakCountDisplay" class="font-black text-rose-700 text-xs sm:text-sm">1</span>
-                    <span class="hidden sm:inline text-[10px] text-rose-400 font-bold uppercase">day</span>
-                </div>
+  <!-- Screen 2: ABC World Hub -->
+  <section id="screen-abc-suite" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
+    <div class="section-title">🅰️ Choose Letter (A to Z)</div>
+    <div class="toggle-group" style="margin-bottom: 14px; width: fit-content;">
+      <button class="toggle-btn active" id="case-upper-btn" onclick="toggleLetterCase(true)">UPPERCASE</button>
+      <button class="toggle-btn" id="case-lower-btn" onclick="toggleLetterCase(false)">lowercase</button>
+    </div>
+    <div class="horizontal-slider" id="abc-selector-bar"></div>
 
-                <!-- Stars Collected -->
-                <div class="flex items-center gap-1.5 bg-amber-50 border-2 border-amber-300 px-3 py-1 rounded-2xl shadow-inner" title="Stars Bank">
-                    <span class="text-base text-amber-500">⭐</span>
-                    <span id="globalStarsDisplay" class="font-black text-amber-800 text-sm sm:text-base">0</span>
-                </div>
+    <div class="section-title" style="margin-top: 24px;">🔊 Phonics Sound Board</div>
+    <div class="cards-grid" id="phonics-cards-grid"></div>
+  </section>
 
-                <!-- Audio Toggle Button -->
-                <button id="soundToggleBtn" onclick="toggleMuteAudio()" class="w-9 h-9 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 flex items-center justify-center text-sm font-bold text-slate-700 btn-bouncy" title="Toggle Sound">
-                    🔊
-                </button>
+  <!-- Screen 3: 123 Planet Hub -->
+  <section id="screen-numbers-suite" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
+    <div class="section-title">🔢 Select Number (1 to 100)</div>
+    <div class="horizontal-slider" id="number-selector-bar"></div>
 
-                <!-- Parental Gate Button -->
-                <button onclick="openParentGateModal()" class="w-9 h-9 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 flex items-center justify-center text-sm font-bold text-slate-600 btn-bouncy" title="Parental Settings & Safety">
-                    ⚙️
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="section-title" style="margin-top: 24px;">🧮 Math & Counting Adventures</div>
+    <div class="cards-grid">
+      <div class="action-card" onclick="navigateTo('tap-count')">
+        <div class="badge">⭐</div>
+        <h4>Object Counting</h4>
+        <span>Touch to Count</span>
+      </div>
+      <div class="action-card" onclick="navigateTo('missing-numbers')">
+        <div class="badge">🧩</div>
+        <h4>Missing Numbers</h4>
+        <span>Find the Gap</span>
+      </div>
+    </div>
+  </section>
 
-    <!-- MAIN VIEW CONTAINER -->
-    <main class="max-w-5xl w-full mx-auto p-3 sm:p-5 flex-grow flex flex-col justify-center">
+  <!-- Screen 4: Unified Tracing Suite -->
+  <section id="screen-tracing" class="screen">
+    <button class="in-app-back" onclick="handleTracingBack()">← Back</button>
+    <div class="tracing-container">
+      <div class="tracing-header">
+        <h3 id="tracing-title" style="font-size: 1.3rem;">Trace Letter</h3>
+        <button class="btn-circle" onclick="speakCurrentItem()" title="Pronounce">🔊</button>
+      </div>
 
-        <!-- ================= 1. HOME DASHBOARD ================= -->
-        <section id="view-home" class="flex flex-col items-center w-full space-y-6">
-            <div class="text-center py-2">
-                <span class="inline-block bg-indigo-100 text-indigo-700 font-extrabold text-xs px-4 py-1.5 rounded-full mb-2 tracking-wide">
-                    ✨ Fun & Safe Learning Adventure
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-black text-slate-800 tracking-tight">
-                    What would you like to explore?
-                </h2>
-                <p class="text-slate-500 text-xs sm:text-sm font-semibold mt-1">Tap any activity to start playing!</p>
-            </div>
+      <div class="color-palette">
+        <div class="color-dot selected" style="background: #FF4757;" onclick="selectBrushColor('#FF4757', this)"></div>
+        <div class="color-dot" style="background: #2ED573;" onclick="selectBrushColor('#2ED573', this)"></div>
+        <div class="color-dot" style="background: #1E90FF;" onclick="selectBrushColor('#1E90FF', this)"></div>
+        <div class="color-dot" style="background: #FFA502;" onclick="selectBrushColor('#FFA502', this)"></div>
+        <div class="color-dot" style="background: #9B59B6;" onclick="selectBrushColor('#9B59B6', this)"></div>
+      </div>
 
-            <!-- Responsive 5 Module Cards Grid -->
-            <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
-                
-                <!-- Card 1: Guided Tracing -->
-                <div onclick="navigateTo('tracing')" class="bg-gradient-to-b from-teal-400 to-emerald-500 rounded-3xl p-4 text-white text-center border-b-6 border-emerald-700 btn-bouncy cursor-pointer flex flex-col items-center justify-between h-52 sm:h-56 transform hover:-translate-y-1 transition">
-                    <span class="text-5xl mt-2 animate-float">✍️</span>
-                    <div>
-                        <h3 class="text-lg font-black leading-tight">Stroke Tracing</h3>
-                        <p class="text-teal-100 text-[11px] font-medium mt-1">Letters & Numbers with animated spark guide</p>
-                    </div>
-                    <span class="bg-white text-emerald-800 font-extrabold text-xs px-3 py-1 rounded-xl shadow-sm">Play ➜</span>
-                </div>
+      <div class="canvas-wrapper">
+        <div class="floating-guide-char" id="guide-char-display">A</div>
+        <canvas id="tracingCanvas"></canvas>
+      </div>
 
-                <!-- Card 2: Phonics Sound Lab -->
-                <div onclick="navigateTo('phonics')" class="bg-gradient-to-b from-sky-400 to-blue-500 rounded-3xl p-4 text-white text-center border-b-6 border-blue-700 btn-bouncy cursor-pointer flex flex-col items-center justify-between h-52 sm:h-56 transform hover:-translate-y-1 transition">
-                    <span class="text-5xl mt-2">🗣️</span>
-                    <div>
-                        <h3 class="text-lg font-black leading-tight">Phonics Lab</h3>
-                        <p class="text-sky-100 text-[11px] font-medium mt-1">Listen to words, sounds & bouncers</p>
-                    </div>
-                    <span class="bg-white text-blue-800 font-extrabold text-xs px-3 py-1 rounded-xl shadow-sm">Listen ➜</span>
-                </div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="in-app-back" style="margin-bottom:0;" onclick="clearTracingCanvas()">🗑️ Clear</button>
+        <button class="btn-checkout" style="width: auto; padding: 8px 24px;" onclick="completeTracingActivity()">
+          ⭐ Complete
+        </button>
+      </div>
+    </div>
+  </section>
 
-                <!-- Card 3: Voice Read-Along -->
-                <div onclick="navigateTo('voice')" class="bg-gradient-to-b from-purple-400 to-indigo-600 rounded-3xl p-4 text-white text-center border-b-6 border-indigo-800 btn-bouncy cursor-pointer flex flex-col items-center justify-between h-52 sm:h-56 transform hover:-translate-y-1 transition">
-                    <span class="text-5xl mt-2">🎙️</span>
-                    <div>
-                        <h3 class="text-lg font-black leading-tight">Speak & Win</h3>
-                        <p class="text-purple-100 text-[11px] font-medium mt-1">Say the word out loud to earn gold stars</p>
-                    </div>
-                    <span class="bg-white text-indigo-900 font-extrabold text-xs px-3 py-1 rounded-xl shadow-sm">Speak ➜</span>
-                </div>
+  <!-- Screen 5: Tap and Count Lab -->
+  <section id="screen-tap-count" class="screen">
+    <button class="in-app-back" onclick="navigateTo('numbers-suite')">← Back</button>
+    <div class="tracing-container">
+      <h3 style="font-size: 1.3rem; margin-bottom: 6px;">Tap each item to count!</h3>
+      <p style="color: #718096; font-size: 0.85rem; margin-bottom: 14px;" id="count-target-text">Target: 5</p>
 
-                <!-- Card 4: Glow Doodle Pad -->
-                <div onclick="navigateTo('doodle')" class="bg-gradient-to-b from-pink-400 to-rose-500 rounded-3xl p-4 text-white text-center border-b-6 border-rose-700 btn-bouncy cursor-pointer flex flex-col items-center justify-between h-52 sm:h-56 transform hover:-translate-y-1 transition">
-                    <span class="text-5xl mt-2">🎨</span>
-                    <div>
-                        <h3 class="text-lg font-black leading-tight">Glow Coloring</h3>
-                        <p class="text-pink-100 text-[11px] font-medium mt-1">Free neon drawing & funny stickers</p>
-                    </div>
-                    <span class="bg-white text-rose-800 font-extrabold text-xs px-3 py-1 rounded-xl shadow-sm">Draw ➜</span>
-                </div>
+      <div class="count-items-container" id="tap-items-box"></div>
 
-                <!-- Card 5: Virtual Toy Room -->
-                <div onclick="navigateTo('toyroom')" class="col-span-2 sm:col-span-1 bg-gradient-to-b from-amber-400 to-orange-500 rounded-3xl p-4 text-white text-center border-b-6 border-orange-700 btn-bouncy cursor-pointer flex flex-col items-center justify-between h-52 sm:h-56 transform hover:-translate-y-1 transition">
-                    <span class="text-5xl mt-2">🧸</span>
-                    <div>
-                        <h3 class="text-lg font-black leading-tight">Toy Playroom</h3>
-                        <p class="text-amber-100 text-[11px] font-medium mt-1">Spend stars to unlock animated 3D toys</p>
-                    </div>
-                    <span class="bg-white text-orange-800 font-extrabold text-xs px-3 py-1 rounded-xl shadow-sm">Unlock ➜</span>
-                </div>
+      <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);" id="count-status-text">
+        Counted: 0
+      </div>
+    </div>
+  </section>
 
-            </div>
-        </section>
-
-        <!-- ================= 2. GUIDED STROKE TRACING ================= -->
-        <section id="view-tracing" class="hidden flex-col items-center w-full max-w-xl mx-auto space-y-3">
-            
-            <!-- Sub-Header: Mode & Sound Trigger -->
-            <div class="w-full flex items-center justify-between bg-white/90 p-2.5 rounded-2xl border-2 border-slate-200 shadow-sm">
-                <!-- Uppercase / Lowercase / Number Switch -->
-                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
-                    <button id="btnCaseUpper" onclick="switchTracingCase('upper')" class="px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm">ABC</button>
-                    <button id="btnCaseLower" onclick="switchTracingCase('lower')" class="px-2.5 py-1 text-xs font-black rounded-lg text-slate-600 hover:text-slate-900">abc</button>
-                    <button id="btnCaseNumbers" onclick="switchTracingCase('numbers')" class="px-2.5 py-1 text-xs font-black rounded-lg text-slate-600 hover:text-slate-900">123</button>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <button onclick="speakCurrentTracingPrompt()" class="bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs font-extrabold px-3 py-1.5 rounded-xl border border-purple-300 btn-bouncy flex items-center gap-1">
-                        <span>🔊 Pronounce</span>
-                    </button>
-                    <button onclick="clearTracingCanvas()" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-extrabold px-3 py-1.5 rounded-xl border border-rose-300 btn-bouncy">
-                        Clear
-                    </button>
-                </div>
-            </div>
-
-            <!-- Horizontal Alphabet Navigation Carousel -->
-            <div class="w-full flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 px-1" id="tracingItemsCarousel">
-                <!-- Injected via JS -->
-            </div>
-
-            <!-- Canvas Container with Interactive Guide -->
-            <div class="relative bg-white rounded-3xl border-4 border-indigo-300 shadow-xl p-2.5 flex flex-col items-center animate-glow">
-                
-                <canvas id="tracingCanvas" width="320" height="320" class="rounded-2xl bg-amber-50/50 cursor-crosshair"></canvas>
-
-                <!-- Tracing Completion Progress Bar -->
-                <div class="w-full bg-slate-100 h-3 rounded-full mt-2.5 overflow-hidden border border-slate-200">
-                    <div id="tracingProgressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full w-0 transition-all duration-150"></div>
-                </div>
-
-                <div class="flex justify-between w-full px-2 mt-1 text-[11px] font-bold text-slate-500">
-                    <span>Follow the glowing star spark ⭐</span>
-                    <span id="tracingProgressLabel">0% Completed</span>
-                </div>
-            </div>
-
-            <!-- Color Palette & Quick Skip -->
-            <div class="w-full flex items-center justify-between px-2">
-                <div class="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
-                    <button onclick="setTracingBrushColor('#ef4444')" class="w-7 h-7 rounded-full bg-red-500 ring-2 ring-red-200 btn-bouncy"></button>
-                    <button onclick="setTracingBrushColor('#3b82f6')" class="w-7 h-7 rounded-full bg-blue-500 ring-2 ring-blue-200 btn-bouncy"></button>
-                    <button onclick="setTracingBrushColor('#10b981')" class="w-7 h-7 rounded-full bg-emerald-500 ring-2 ring-emerald-200 btn-bouncy"></button>
-                    <button onclick="setTracingBrushColor('#f59e0b')" class="w-7 h-7 rounded-full bg-amber-500 ring-2 ring-amber-200 btn-bouncy"></button>
-                    <button onclick="setTracingBrushColor('#8b5cf6')" class="w-7 h-7 rounded-full bg-purple-500 ring-2 ring-purple-200 btn-bouncy"></button>
-                </div>
-
-                <button onclick="advanceNextTracingItem()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-black px-4 py-2 rounded-2xl border-b-4 border-emerald-700 btn-bouncy text-xs sm:text-sm flex items-center gap-1.5">
-                    <span>Next</span>
-                    <span>➜</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- ================= 3. PHONICS LAB (RESPONSIVE GRID) ================= -->
-        <section id="view-phonics" class="hidden flex-col w-full space-y-4">
-            
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-black text-slate-800">Phonics Sound Lab</h2>
-                    <p class="text-xs text-slate-500 font-semibold">Tap any card to hear pronunciation and see it bounce!</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="filterPhonicsCategory('all')" class="bg-indigo-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl">All A-Z</button>
-                    <button onclick="filterPhonicsCategory('numbers')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl">1-10</button>
-                </div>
-            </div>
-
-            <!-- Perfectly Aligned Auto-fit Grid -->
-            <div id="phonicsCardsGrid" class="w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5 sm:gap-3 max-h-[66vh] overflow-y-auto no-scrollbar p-1">
-                <!-- Dynamically populated without clipping -->
-            </div>
-        </section>
-
-        <!-- ================= 4. KIDS VOICE READ-ALONG ================= -->
-        <section id="view-voice" class="hidden flex-col items-center w-full max-w-md mx-auto space-y-5 text-center">
-            
-            <div class="bg-white w-full rounded-3xl p-6 border-4 border-purple-300 shadow-xl space-y-4">
-                <span class="inline-block bg-purple-100 text-purple-700 font-black text-xs px-3 py-1 rounded-full">
-                    Say It Out Loud Challenge 🎙️
-                </span>
-
-                <div id="voiceTargetEmoji" class="text-7xl animate-float cursor-pointer" onclick="speakCurrentVoiceTarget()">🍎</div>
-                
-                <div>
-                    <h2 id="voiceTargetWord" class="text-3xl font-black text-slate-800 tracking-wide">Apple</h2>
-                    <p id="voiceTargetPhonic" class="text-sm font-bold text-indigo-600">Letter "A"</p>
-                </div>
-
-                <!-- Big Mic Button -->
-                <div class="flex flex-col items-center justify-center pt-2">
-                    <button id="micListeningBtn" onclick="toggleMicrophoneListening()" class="w-20 h-20 rounded-full bg-gradient-to-tr from-rose-500 to-pink-500 text-white text-3xl font-black flex items-center justify-center shadow-lg border-4 border-white btn-bouncy transform active:scale-90 transition">
-                        🎤
-                    </button>
-                    <span id="micStatusText" class="text-xs font-bold text-slate-400 mt-2">Tap mic and say "Apple"</span>
-                </div>
-
-                <!-- Speech Feedback Banner -->
-                <div id="speechResultBanner" class="hidden bg-slate-100 p-2.5 rounded-2xl border border-slate-200 text-xs font-bold text-slate-700">
-                    Listening...
-                </div>
-            </div>
-
-            <button onclick="skipVoiceTarget()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold text-xs px-4 py-2 rounded-xl btn-bouncy">
-                Skip to Next Word ➜
-            </button>
-        </section>
-
-        <!-- ================= 5. GLOW COLORING & DOODLE PAD ================= -->
-        <section id="view-doodle" class="hidden flex-col items-center w-full max-w-xl mx-auto space-y-3">
-            
-            <div class="w-full flex items-center justify-between bg-white/90 p-2.5 rounded-2xl border-2 border-slate-200 shadow-sm">
-                <span class="text-xs font-black text-pink-600">Neon Glow Doodle Pad 🌟</span>
-                <div class="flex items-center gap-2">
-                    <button onclick="clearDoodleCanvas()" class="bg-rose-100 text-rose-700 text-xs font-bold px-3 py-1.5 rounded-xl btn-bouncy">Clear</button>
-                    <button onclick="downloadDoodleArtwork()" class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-xl btn-bouncy">Save Art</button>
-                </div>
-            </div>
-
-            <!-- Canvas Container -->
-            <div class="relative bg-slate-900 rounded-3xl border-4 border-pink-400 shadow-2xl p-2 flex flex-col items-center overflow-hidden">
-                <canvas id="doodleCanvas" width="340" height="340" class="rounded-2xl bg-slate-950 cursor-crosshair"></canvas>
-            </div>
-
-            <!-- Neon Colors & Stamp Options -->
-            <div class="w-full flex flex-wrap items-center justify-center gap-2">
-                <button onclick="setNeonGlowColor('#22d3ee')" class="w-8 h-8 rounded-full bg-cyan-400 shadow-lg ring-2 ring-white btn-bouncy"></button>
-                <button onclick="setNeonGlowColor('#f43f5e')" class="w-8 h-8 rounded-full bg-rose-500 shadow-lg ring-2 ring-white btn-bouncy"></button>
-                <button onclick="setNeonGlowColor('#a855f7')" class="w-8 h-8 rounded-full bg-purple-500 shadow-lg ring-2 ring-white btn-bouncy"></button>
-                <button onclick="setNeonGlowColor('#fbbf24')" class="w-8 h-8 rounded-full bg-amber-400 shadow-lg ring-2 ring-white btn-bouncy"></button>
-                <button onclick="setNeonGlowColor('#34d399')" class="w-8 h-8 rounded-full bg-emerald-400 shadow-lg ring-2 ring-white btn-bouncy"></button>
-                <button onclick="setNeonGlowColor('#ffffff')" class="w-8 h-8 rounded-full bg-white shadow-lg ring-2 ring-slate-300 btn-bouncy"></button>
-                
-                <span class="w-px h-6 bg-slate-300 mx-1"></span>
-
-                <!-- Fun Sticker Stamps -->
-                <button onclick="stampDoodleEmoji('⭐')" class="text-xl p-1 bg-white rounded-xl shadow border border-slate-200 btn-bouncy">⭐</button>
-                <button onclick="stampDoodleEmoji('🦄')" class="text-xl p-1 bg-white rounded-xl shadow border border-slate-200 btn-bouncy">🦄</button>
-                <button onclick="stampDoodleEmoji('🚀')" class="text-xl p-1 bg-white rounded-xl shadow border border-slate-200 btn-bouncy">🚀</button>
-                <button onclick="stampDoodleEmoji('🌸')" class="text-xl p-1 bg-white rounded-xl shadow border border-slate-200 btn-bouncy">🌸</button>
-            </div>
-        </section>
-
-        <!-- ================= 6. VIRTUAL TOY PLAYROOM ================= -->
-        <section id="view-toyroom" class="hidden flex-col w-full max-w-2xl mx-auto space-y-4">
-            
-            <div class="bg-gradient-to-r from-amber-200 to-orange-200 p-4 rounded-3xl border-2 border-amber-300 shadow-sm flex items-center justify-between">
-                <div>
-                    <h2 class="text-lg sm:text-xl font-black text-amber-950">My Toy Playroom 🧸</h2>
-                    <p class="text-xs text-amber-900 font-semibold">Play learning games to collect stars and unlock animated toys!</p>
-                </div>
-                <div class="text-right">
-                    <span class="text-xs font-bold text-amber-800">Stars Available</span>
-                    <div class="text-xl font-black text-amber-950">⭐ <span id="toyroomStarsCounter">0</span></div>
-                </div>
-            </div>
-
-            <!-- Playroom Floor (Interactive unlocked items) -->
-            <div id="playroomFloor" class="w-full min-h-[220px] bg-gradient-to-b from-sky-100 to-amber-100 rounded-3xl border-4 border-dashed border-amber-300 p-4 flex flex-wrap items-center justify-center gap-4 relative">
-                <!-- Unlocked toys rendered here -->
-            </div>
-
-            <!-- Toy Shop Grid -->
-            <div>
-                <h3 class="text-sm font-extrabold text-slate-700 mb-2">Toy Chest (Tap to Unlock):</h3>
-                <div id="toyShopGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- Populated dynamically via JS -->
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ================= AD CONTAINER (Google AdSense Compliant Safe Placement) ================= -->
-    <aside class="w-full bg-white/90 border-t-2 border-slate-200 py-1.5 px-3 flex flex-col items-center justify-center mt-3">
-        <div class="flex items-center justify-between w-full max-w-xl mb-1 px-1">
-            <span class="text-[9px] uppercase tracking-wider font-extrabold text-slate-400">Child-Friendly Sponsored Ad</span>
-            <span class="text-[9px] text-slate-400 font-semibold">Verified Family Safe</span>
-        </div>
-
-        <!-- Safe Height & Padded Banner Container -->
-        <div id="adSenseBannerSlot" class="w-full max-w-xl h-[52px] sm:h-[65px] bg-slate-100 rounded-2xl border border-dashed border-slate-300 flex items-center justify-center overflow-hidden">
-            <div class="text-center text-slate-400 text-xs px-2 flex items-center gap-2">
-                <span class="text-xl">📢</span>
-                <div>
-                    <span class="font-extrabold text-slate-600 text-xs">Google AdSense Safe Banner Slot</span>
-                    <p class="text-[9px] text-slate-400">Isolated ad placement compliant with COPPA and Google Families policies</p>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- ================= NATURAL BREAK CELEBRATION MODAL ================= -->
-    <div id="naturalBreakModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border-4 border-amber-300 transform scale-95 transition-transform duration-200">
-            <div class="text-5xl mb-2 animate-bounce">🏆</div>
-            <h3 class="text-2xl font-black text-slate-800">Super Star!</h3>
-            <p class="text-slate-500 text-xs font-bold mt-1 mb-4">You solved 3 activities like a true champion!</p>
-
-            <!-- Safe Interstitial Container -->
-            <div class="bg-slate-50 rounded-2xl border-2 border-dashed border-slate-300 p-3 mb-4">
-                <span class="text-[10px] text-slate-400 font-bold uppercase block mb-1">Break Time Sponsor</span>
-                <div class="h-24 bg-slate-200/90 rounded-xl flex items-center justify-center text-xs text-slate-600 font-bold p-2 text-center">
-                    [ Interstitial / Rewarded Video Ad Slot ]<br>
-                    <span class="text-[10px] text-slate-400 font-normal">Eligible for high-CPM Google Families ads</span>
-                </div>
-            </div>
-
-            <button onclick="dismissNaturalBreakModal()" class="w-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 text-white font-black py-3 rounded-2xl border-b-4 border-teal-700 btn-bouncy text-sm">
-                🎁 Keep Playing (+2 Bonus Stars)
-            </button>
-        </div>
+  <!-- Screen 6: Printable Activity PDF Store -->
+  <section id="screen-store" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
+    <div class="store-hero">
+      <h2>🖨️ Home Activity Worksheets</h2>
+      <p>Printable high-resolution PDF learning kits for offline pencil & paper practice.</p>
     </div>
 
-    <!-- ================= PARENTAL GATE MODAL ================= -->
-    <div id="parentalGateModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-xs w-full p-5 text-center shadow-2xl border-4 border-slate-300">
-            <div class="text-3xl mb-1">🔒</div>
-            <h3 class="text-lg font-black text-slate-800">Parents Zone</h3>
-            <p class="text-slate-500 text-xs mt-1 mb-3 font-semibold">Please answer the math problem to proceed:</p>
-
-            <div id="parentGateEquation" class="text-2xl font-black bg-slate-100 py-2.5 rounded-2xl mb-3 text-indigo-700">4 + 5 = ?</div>
-            <input type="number" id="parentGateInput" class="w-full text-center text-xl font-black border-2 border-slate-300 rounded-2xl py-2 mb-3 focus:outline-none focus:border-indigo-500" placeholder="?">
-
-            <div class="flex gap-2">
-                <button onclick="closeParentGateModal()" class="flex-1 bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs btn-bouncy">Cancel</button>
-                <button onclick="verifyParentGateAnswer()" class="flex-1 bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs btn-bouncy">Confirm</button>
-            </div>
+    <div class="bundle-grid">
+      <!-- Bundle 1 -->
+      <div class="bundle-card">
+        <div class="bundle-preview">🔤</div>
+        <div class="bundle-info">
+          <h3>A-Z Tracing Master Workbook</h3>
+          <p>52 printable worksheets with uppercase, lowercase, stroke lines, and coloring drawings.</p>
+          <div class="price-row">
+            <span class="price-tag">$2.99 / ₹99</span>
+          </div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('az-workbook')">
+            💳 Buy & Instant Download
+          </button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('A-Z Tracing Master Workbook')">
+            💬 Inquire on WhatsApp
+          </button>
         </div>
+      </div>
+
+      <!-- Bundle 2 -->
+      <div class="bundle-card">
+        <div class="bundle-preview">🔢</div>
+        <div class="bundle-info">
+          <h3>1 to 100 Math & Number Kit</h3>
+          <p>Complete counting activities, number tracing sheets, object matching, and missing numbers.</p>
+          <div class="price-row">
+            <span class="price-tag">$2.99 / ₹99</span>
+          </div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('100-numbers-kit')">
+            💳 Buy & Instant Download
+          </button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('1 to 100 Math & Number Kit')">
+            💬 Inquire on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Bundle 3 -->
+      <div class="bundle-card">
+        <div class="bundle-preview">🎁</div>
+        <div class="bundle-info">
+          <h3>Mega Early Learner Combo</h3>
+          <p>Complete Alphabet + 1-100 Numbers + Colors & Shapes printable super-pack (120+ pages).</p>
+          <div class="price-row">
+            <span class="price-tag">$4.99 / ₹149</span>
+          </div>
+          <button class="btn-checkout" onclick="redirectToStoreCheckout('mega-combo')">
+            💳 Buy & Instant Download
+          </button>
+          <button class="btn-whatsapp-inquire" onclick="inquireOnWhatsApp('Mega Early Learner Combo Bundle')">
+            💬 Inquire on WhatsApp
+          </button>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- ================= JAVASCRIPT APPLICATION CORE ================= -->
-    <script>
-        /**
-         * Comprehensive Curriculum Data (English International)
-         */
-        const fullAlphabetData = [
-            { upper: 'A', lower: 'a', word: 'Apple', emoji: '🍎', phonic: 'A is for Apple' },
-            { upper: 'B', lower: 'b', word: 'Ball', emoji: '⚽', phonic: 'B is for Ball' },
-            { upper: 'C', lower: 'c', word: 'Cat', emoji: '🐱', phonic: 'C is for Cat' },
-            { upper: 'D', lower: 'd', word: 'Duck', emoji: '🦆', phonic: 'D is for Duck' },
-            { upper: 'E', lower: 'e', word: 'Elephant', emoji: '🐘', phonic: 'E is for Elephant' },
-            { upper: 'F', lower: 'f', word: 'Fish', emoji: '🐟', phonic: 'F is for Fish' },
-            { upper: 'G', lower: 'g', word: 'Giraffe', emoji: '🦒', phonic: 'G is for Giraffe' },
-            { upper: 'H', lower: 'h', word: 'Hat', emoji: '👒', phonic: 'H is for Hat' },
-            { upper: 'I', lower: 'i', word: 'Ice cream', emoji: '🍦', phonic: 'I is for Ice cream' },
-            { upper: 'J', lower: 'j', word: 'Juice', emoji: '🧃', phonic: 'J is for Juice' },
-            { upper: 'K', lower: 'k', word: 'Kite', emoji: '🪁', phonic: 'K is for Kite' },
-            { upper: 'L', lower: 'l', word: 'Lion', emoji: '🦁', phonic: 'L is for Lion' },
-            { upper: 'M', lower: 'm', word: 'Monkey', emoji: '🐵', phonic: 'M is for Monkey' },
-            { upper: 'N', lower: 'n', word: 'Nest', emoji: '🪺', phonic: 'N is for Nest' },
-            { upper: 'O', lower: 'o', word: 'Orange', emoji: '🍊', phonic: 'O is for Orange' },
-            { upper: 'P', lower: 'p', word: 'Pencil', emoji: '✏️', phonic: 'P is for Pencil' },
-            { upper: 'Q', lower: 'q', word: 'Queen', emoji: '👑', phonic: 'Q is for Queen' },
-            { upper: 'R', lower: 'r', word: 'Rainbow', emoji: '🌈', phonic: 'R is for Rainbow' },
-            { upper: 'S', lower: 's', word: 'Sun', emoji: '☀️', phonic: 'S is for Sun' },
-            { upper: 'T', lower: 't', word: 'Tiger', emoji: '🐯', phonic: 'T is for Tiger' },
-            { upper: 'U', lower: 'u', word: 'Umbrella', emoji: '☂️', phonic: 'U is for Umbrella' },
-            { upper: 'V', lower: 'v', word: 'Violin', emoji: '🎻', phonic: 'V is for Violin' },
-            { upper: 'W', lower: 'w', word: 'Whale', emoji: '🐳', phonic: 'W is for Whale' },
-            { upper: 'X', lower: 'x', word: 'Xylophone', emoji: '🎵', phonic: 'X is for Xylophone' },
-            { upper: 'Y', lower: 'y', word: 'Yo-yo', emoji: '🪀', phonic: 'Y is for Yo-yo' },
-            { upper: 'Z', lower: 'z', word: 'Zebra', emoji: '🦓', phonic: 'Z is for Zebra' }
-        ];
+  <!-- Screen 7: Toy Playroom & Rewards -->
+  <section id="screen-playroom" class="screen">
+    <button class="in-app-back" onclick="navigateTo('home')">← Back to Hub</button>
+    <div class="tracing-container">
+      <h3>🧸 Virtual Toy Playroom</h3>
+      <p style="color: #718096; font-size: 0.85rem; margin-bottom: 14px;">
+        Use your earned stars to unlock special toys!
+      </p>
+      <div class="cards-grid" id="toys-grid"></div>
+    </div>
+  </section>
 
-        const numbersData = [
-            { upper: '1', lower: '1', word: 'One', emoji: '☝️', phonic: 'Number One' },
-            { upper: '2', lower: '2', word: 'Two', emoji: '✌️', phonic: 'Number Two' },
-            { upper: '3', lower: '3', word: 'Three', emoji: '🤟', phonic: 'Number Three' },
-            { upper: '4', lower: '4', word: 'Four', emoji: '🍀', phonic: 'Number Four' },
-            { upper: '5', lower: '5', word: 'Five', emoji: '✋', phonic: 'Number Five' },
-            { upper: '6', lower: '6', word: 'Six', emoji: '🎲', phonic: 'Number Six' },
-            { upper: '7', lower: '7', word: 'Seven', emoji: '🌈', phonic: 'Number Seven' },
-            { upper: '8', lower: '8', word: 'Eight', emoji: '🐙', phonic: 'Number Eight' },
-            { upper: '9', lower: '9', word: 'Nine', emoji: '🎈', phonic: 'Number Nine' },
-            { upper: '10', lower: '10', word: 'Ten', emoji: '🔟', phonic: 'Number Ten' }
-        ];
+  <!-- Safe Advertisement Slot Container -->
+  <div class="ad-banner-wrapper">
+    <div class="ad-box">
+      <span>CHILD-FRIENDLY SPONSOR CONTAINER</span>
+      <span>AdSense Banner / Family Safe Ad Placement Space</span>
+    </div>
+  </div>
 
-        const toyShopInventory = [
-            { id: 'toy_car', name: 'Race Car', emoji: '🏎️', cost: 2, sound: 380 },
-            { id: 'toy_teddy', name: 'Teddy Bear', emoji: '🧸', cost: 4, sound: 520 },
-            { id: 'toy_dino', name: 'Baby Dino', emoji: '🦖', cost: 6, sound: 260 },
-            { id: 'toy_robot', name: 'Beep Robot', emoji: '🤖', cost: 8, sound: 640 },
-            { id: 'toy_rocket', name: 'Space Shuttle', emoji: '🚀', cost: 10, sound: 800 },
-            { id: 'toy_unicorn', name: 'Magic Unicorn', emoji: '🦄', cost: 12, sound: 740 },
-            { id: 'toy_drum', name: 'Music Drum', emoji: '🥁', cost: 14, sound: 300 },
-            { id: 'toy_plane', name: 'Super Jet', emoji: '✈️', cost: 16, sound: 450 }
-        ];
+  <script>
+    /* =========================================================
+       1. STORE, WHATSAPP & MONETIZATION SETTINGS
+       ========================================================= */
+    const STORE_PAYMENT_URL = "https://superprofile.bio/sssarviceaisolution";
+    const WHATSAPP_CONTACT_NUMBER = "919876543210"; // Country code + Mobile without +
 
-        /**
-         * Global App State
-         */
-        let currentView = 'home';
-        let tracingMode = 'upper'; // 'upper', 'lower', 'numbers'
-        let currentTracingIndex = 0;
-        let isMuted = false;
-        let globalStars = parseInt(localStorage.getItem('ql_stars') || '4');
-        let dailyStreak = parseInt(localStorage.getItem('ql_streak') || '1');
-        let completedActivitiesCounter = 0;
-        let unlockedToys = JSON.parse(localStorage.getItem('ql_unlocked_toys') || '["toy_car"]');
+    function redirectToStoreCheckout(itemSlug) {
+      window.open(STORE_PAYMENT_URL, '_blank');
+    }
 
-        // Audio Engine Instances
-        let webAudioContext = null;
-        let preferredSpeechVoice = null;
+    function inquireOnWhatsApp(productTitle) {
+      const msg = encodeURIComponent(`Hi, I want to purchase the "${productTitle}" PDF download pack.`);
+      window.open(`https://wa.me/${WHATSAPP_CONTACT_NUMBER}?text=${msg}`, '_blank');
+    }
 
-        /**
-         * Web Audio & Resilient Voice Synthesizer
-         */
-        function getWebAudioContext() {
-            if (!webAudioContext) {
-                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-                if (AudioCtxClass) webAudioContext = new AudioCtxClass();
-            }
-            if (webAudioContext && webAudioContext.state === 'suspended') {
-                webAudioContext.resume();
-            }
-            return webAudioContext;
+    /* =========================================================
+       2. FULL DATA REPOSITORIES: A-Z & 1-100
+       ========================================================= */
+    const ALPHABET_DATA = [
+      { u: 'A', l: 'a', word: 'Apple', icon: '🍎' },
+      { u: 'B', l: 'b', word: 'Ball', icon: '⚽' },
+      { u: 'C', l: 'c', word: 'Cat', icon: '🐱' },
+      { u: 'D', l: 'd', word: 'Dog', icon: '🐶' },
+      { u: 'E', l: 'e', word: 'Elephant', icon: '🐘' },
+      { u: 'F', l: 'f', word: 'Fish', icon: '🐟' },
+      { u: 'G', l: 'g', word: 'Grapes', icon: '🍇' },
+      { u: 'H', l: 'h', word: 'Hat', icon: '🎩' },
+      { u: 'I', l: 'i', word: 'Ice Cream', icon: '🍦' },
+      { u: 'J', l: 'j', word: 'Juice', icon: '🧃' },
+      { u: 'K', l: 'k', word: 'Kite', icon: '🪁' },
+      { u: 'L', l: 'l', word: 'Lion', icon: '🦁' },
+      { u: 'M', l: 'm', word: 'Monkey', icon: '🐵' },
+      { u: 'N', l: 'n', word: 'Nest', icon: '🪺' },
+      { u: 'O', l: 'o', word: 'Orange', icon: '🍊' },
+      { u: 'P', l: 'p', word: 'Penguin', icon: '🐧' },
+      { u: 'Q', l: 'q', word: 'Queen', icon: '👑' },
+      { u: 'R', l: 'r', word: 'Rainbow', icon: '🌈' },
+      { u: 'S', l: 's', word: 'Sun', icon: '☀️' },
+      { u: 'T', l: 't', word: 'Tiger', icon: '🐯' },
+      { u: 'U', l: 'u', word: 'Umbrella', icon: '☂️' },
+      { u: 'V', l: 'v', word: 'Violin', icon: '🎻' },
+      { u: 'W', l: 'w', word: 'Watermelon', icon: '🍉' },
+      { u: 'X', l: 'x', word: 'Xylophone', icon: '🎵' },
+      { u: 'Y', l: 'y', word: 'Yo-Yo', icon: '🪀' },
+      { u: 'Z', l: 'z', word: 'Zebra', icon: '🦓' }
+    ];
+
+    let isUppercase = true;
+    let currentMode = 'letter'; // 'letter' or 'number'
+    let currentActiveItem = 'A';
+    let userStars = parseInt(localStorage.getItem('quicklearn_stars') || '0', 10);
+
+    /* =========================================================
+       3. AUDIO & SPEECH SYNTHESIS ENGINE
+       ========================================================= */
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
         }
-
-        function unlockAudioEngine() {
-            getWebAudioContext();
-            playSynthChime();
-            speakEnglishPhrase("Welcome to Quick Learn!");
-            const pill = document.getElementById('audioUnlockPill');
-            if (pill) pill.classList.add('hidden');
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
         }
-
-        function playSynthTone(frequency = 440, type = 'sine', duration = 0.15) {
-            if (isMuted) return;
-            try {
-                const ctx = getWebAudioContext();
-                if (!ctx) return;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(frequency, ctx.currentTime);
-                gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + duration);
-            } catch (e) {}
+      },
+      playTone(freq, type = 'sine', duration = 0.2) {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      },
+      speak(text) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.9;
+          window.speechSynthesis.speak(utterance);
         }
+      }
+    };
 
-        function playSynthPop() {
-            playSynthTone(540, 'triangle', 0.08);
-        }
+    /* =========================================================
+       4. SCREEN NAVIGATION WITH BROWSER BACK SUPPORT
+       ========================================================= */
+    function navigateTo(screenId, pushHistory = true) {
+      AudioEngine.init();
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+      if (pushHistory) {
+        history.pushState({ screen: screenId }, '', `#${screenId}`);
+      }
+    }
 
-        function playSynthChime() {
-            playSynthTone(659.25, 'sine', 0.12);
-            setTimeout(() => playSynthTone(880, 'sine', 0.18), 100);
-        }
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.screen) {
+        navigateTo(e.state.screen, false);
+      } else {
+        navigateTo('home', false);
+      }
+    });
 
-        function playFanfareCelebration() {
-            const chords = [523.25, 659.25, 783.99, 1046.50];
-            chords.forEach((note, idx) => {
-                setTimeout(() => playSynthTone(note, 'triangle', 0.28), idx * 110);
-            });
-        }
+    function handleTracingBack() {
+      if (currentMode === 'letter') navigateTo('abc-suite');
+      else navigateTo('numbers-suite');
+    }
 
-        function speakEnglishPhrase(text) {
-            if (isMuted) return;
-            playSynthChime();
-            if ('speechSynthesis' in window) {
-                try {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    if (preferredSpeechVoice) utterance.voice = preferredSpeechVoice;
-                    utterance.lang = 'en-US';
-                    utterance.rate = 0.85; // Kid-friendly pace
-                    utterance.pitch = 1.15;
-                    window.speechSynthesis.speak(utterance);
-                } catch (e) {}
-            }
-        }
+    /* =========================================================
+       5. INITIALIZE ABC & 1-100 NUMBER REPOSITORIES
+       ========================================================= */
+    function initABCBar() {
+      const bar = document.getElementById('abc-selector-bar');
+      bar.innerHTML = '';
+      ALPHABET_DATA.forEach(item => {
+        const char = isUppercase ? item.u : item.l;
+        const pill = document.createElement('div');
+        pill.className = `pill-item ${char === currentActiveItem ? 'active' : ''}`;
+        pill.textContent = char;
+        pill.onclick = () => openTracingLetter(item.u);
+        bar.appendChild(pill);
+      });
 
-        function setupVoicesListener() {
-            if ('speechSynthesis' in window) {
-                const load = () => {
-                    const voices = window.speechSynthesis.getVoices();
-                    preferredSpeechVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('Google'))) ||
-                                           voices.find(v => v.lang.startsWith('en')) || null;
-                };
-                window.speechSynthesis.onvoiceschanged = load;
-                load();
-            }
-        }
-
-        function toggleMuteAudio() {
-            isMuted = !isMuted;
-            const btn = document.getElementById('soundToggleBtn');
-            btn.innerText = isMuted ? '🔇' : '🔊';
-            if (!isMuted) {
-                playSynthPop();
-                speakEnglishPhrase("Sound is on");
-            }
-        }
-
-        /**
-         * Navigation with HTML5 History API (Native Back Support)
-         */
-        function navigateTo(viewName, replaceHistory = false) {
-            playSynthPop();
-            ['home', 'tracing', 'phonics', 'voice', 'doodle', 'toyroom'].forEach(id => {
-                const sec = document.getElementById('view-' + id);
-                if (sec) sec.classList.add('hidden');
-            });
-
-            const targetSection = document.getElementById('view-' + viewName);
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-                targetSection.classList.add('flex');
-            }
-
-            currentView = viewName;
-
-            // Header Back Button State
-            const backBtn = document.getElementById('headerBackBtn');
-            if (viewName === 'home') {
-                backBtn.classList.add('hidden');
-            } else {
-                backBtn.classList.remove('hidden');
-            }
-
-            // Sync History state
-            if (!replaceHistory) {
-                history.pushState({ view: viewName }, '', '#' + viewName);
-            }
-
-            // Module Init Hooks
-            if (viewName === 'tracing') renderTracingWorkspace();
-            if (viewName === 'phonics') renderPhonicsCards();
-            if (viewName === 'voice') loadNewVoiceChallenge();
-            if (viewName === 'doodle') initDoodleCanvas();
-            if (viewName === 'toyroom') renderToyRoom();
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function navigateHome() {
-            navigateTo('home');
-        }
-
-        // Handle Browser Native Back / Forward
-        window.onpopstate = function (event) {
-            if (event.state && event.state.view) {
-                navigateTo(event.state.view, true);
-            } else {
-                navigateTo('home', true);
-            }
+      const grid = document.getElementById('phonics-cards-grid');
+      grid.innerHTML = '';
+      ALPHABET_DATA.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'action-card';
+        card.innerHTML = `
+          <div class="badge">${item.icon}</div>
+          <h4>${item.u} ${item.l}</h4>
+          <span>${item.word}</span>
+        `;
+        card.onclick = () => {
+          AudioEngine.playTone(440);
+          AudioEngine.speak(`${item.u}, for ${item.word}`);
         };
+        grid.appendChild(card);
+      });
+    }
 
-        /**
-         * MODULE 1: GUIDED STROKE TRACING ENGINE
-         */
-        const traceCanvas = document.getElementById('tracingCanvas');
-        const traceCtx = traceCanvas.getContext('2d', { willReadFrequently: true });
-        let traceBrushColor = '#ef4444';
-        let traceBrushWidth = 24;
-        let isTracingDrawing = false;
-        let tracedPointsSet = new Set();
-        let animatedGuideTimer = null;
-        let sparkAngle = 0;
+    function toggleLetterCase(upper) {
+      isUppercase = upper;
+      document.getElementById('case-upper-btn').classList.toggle('active', upper);
+      document.getElementById('case-lower-btn').classList.toggle('active', !upper);
+      initABCBar();
+    }
 
-        function getActiveTracingDataset() {
-            if (tracingMode === 'numbers') return numbersData;
-            return fullAlphabetData;
-        }
+    function initNumberBar() {
+      const bar = document.getElementById('number-selector-bar');
+      bar.innerHTML = '';
+      for (let i = 1; i <= 100; i++) {
+        const pill = document.createElement('div');
+        pill.className = `pill-item ${i === currentActiveItem ? 'active' : ''}`;
+        pill.textContent = i;
+        pill.onclick = () => openTracingNumber(i);
+        bar.appendChild(pill);
+      }
+    }
 
-        function getCurrentTracingItem() {
-            const data = getActiveTracingDataset();
-            return data[currentTracingIndex] || data[0];
-        }
+    /* =========================================================
+       6. INTERACTIVE TRACING ENGINE (CANVAS)
+       ========================================================= */
+    const canvas = document.getElementById('tracingCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let brushColor = '#FF4757';
 
-        function getCurrentTracingGlyph() {
-            const item = getCurrentTracingItem();
-            if (tracingMode === 'lower') return item.lower;
-            return item.upper;
-        }
+    function setupCanvasDPI() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 24;
+    }
 
-        function switchTracingCase(mode) {
-            playSynthPop();
-            tracingMode = mode;
-            currentTracingIndex = 0;
+    function getCanvasCoordinates(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
 
-            document.getElementById('btnCaseUpper').className = mode === 'upper' ? 'px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm' : 'px-2.5 py-1 text-xs font-black rounded-lg text-slate-600';
-            document.getElementById('btnCaseLower').className = mode === 'lower' ? 'px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm' : 'px-2.5 py-1 text-xs font-black rounded-lg text-slate-600';
-            document.getElementById('btnCaseNumbers').className = mode === 'numbers' ? 'px-2.5 py-1 text-xs font-black rounded-lg bg-indigo-600 text-white shadow-sm' : 'px-2.5 py-1 text-xs font-black rounded-lg text-slate-600';
+    function startDraw(e) {
+      e.preventDefault();
+      AudioEngine.init();
+      isDrawing = true;
+      const pos = getCanvasCoordinates(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      ctx.strokeStyle = brushColor;
+    }
 
-            renderTracingWorkspace();
-        }
+    function drawMove(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getCanvasCoordinates(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
 
-        function renderTracingWorkspace() {
-            renderTracingCarousel();
-            drawBaseLetterTemplate();
-            speakCurrentTracingPrompt();
-            startSparkGuideAnimation();
-        }
+    function stopDraw() {
+      isDrawing = false;
+    }
 
-        function renderTracingCarousel() {
-            const container = document.getElementById('tracingItemsCarousel');
-            container.innerHTML = '';
-            const dataset = getActiveTracingDataset();
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', drawMove);
+    window.addEventListener('mouseup', stopDraw);
 
-            dataset.forEach((item, idx) => {
-                const glyph = tracingMode === 'lower' ? item.lower : item.upper;
-                const btn = document.createElement('button');
-                const isSelected = idx === currentTracingIndex;
-                btn.className = `min-w-[38px] h-9 rounded-2xl font-black text-sm flex items-center justify-center transition ${isSelected ? 'bg-indigo-600 text-white shadow-md scale-105' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`;
-                btn.innerText = glyph;
-                btn.onclick = () => {
-                    currentTracingIndex = idx;
-                    renderTracingWorkspace();
-                };
-                container.appendChild(btn);
-            });
-        }
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', drawMove, { passive: false });
+    window.addEventListener('touchend', stopDraw);
 
-        function drawBaseLetterTemplate() {
-            traceCtx.clearRect(0, 0, 320, 320);
+    function clearTracingCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
 
-            const glyph = getCurrentTracingGlyph();
+    function selectBrushColor(color, el) {
+      brushColor = color;
+      document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+      el.classList.add('selected');
+    }
 
-            // Background Shape
-            traceCtx.font = 'bold 200px Fredoka, sans-serif';
-            traceCtx.textAlign = 'center';
-            traceCtx.textBaseline = 'middle';
-            traceCtx.fillStyle = '#e2e8f0';
-            traceCtx.fillText(glyph, 160, 165);
+    function openTracingLetter(letter) {
+      currentMode = 'letter';
+      currentActiveItem = isUppercase ? letter.toUpperCase() : letter.toLowerCase();
+      document.getElementById('tracing-title').textContent = `Trace Letter ${currentActiveItem}`;
+      document.getElementById('guide-char-display').textContent = currentActiveItem;
+      navigateTo('tracing');
+      setTimeout(() => {
+        setupCanvasDPI();
+        clearTracingCanvas();
+      }, 50);
+      speakCurrentItem();
+    }
 
-            // Outlined Guide Lines
-            traceCtx.strokeStyle = '#94a3b8';
-            traceCtx.lineWidth = 3;
-            traceCtx.setLineDash([8, 8]);
-            traceCtx.strokeText(glyph, 160, 165);
-            traceCtx.setLineDash([]);
+    function openTracingNumber(num) {
+      currentMode = 'number';
+      currentActiveItem = num;
+      document.getElementById('tracing-title').textContent = `Trace Number ${num}`;
+      document.getElementById('guide-char-display').textContent = num;
+      navigateTo('tracing');
+      setTimeout(() => {
+        setupCanvasDPI();
+        clearTracingCanvas();
+      }, 50);
+      speakCurrentItem();
+    }
 
-            tracedPointsSet.clear();
-            updateTracingProgress(0);
-        }
+    function speakCurrentItem() {
+      if (currentMode === 'letter') {
+        const match = ALPHABET_DATA.find(x => x.u === currentActiveItem.toUpperCase());
+        AudioEngine.speak(match ? `${match.u}, for ${match.word}` : currentActiveItem);
+      } else {
+        AudioEngine.speak(currentActiveItem.toString());
+      }
+    }
 
-        function startSparkGuideAnimation() {
-            cancelAnimationFrame(animatedGuideTimer);
-            function animate() {
-                if (currentView !== 'tracing') return;
-                sparkAngle += 0.04;
-                animatedGuideTimer = requestAnimationFrame(animate);
+    function completeTracingActivity() {
+      userStars += 5;
+      updateStarDisplay();
+      AudioEngine.playTone(587, 'triangle', 0.3);
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+      }
+      setTimeout(() => {
+        handleTracingBack();
+      }, 1000);
+    }
+
+    /* =========================================================
+       7. TAP AND COUNT LAB
+       ========================================================= */
+    let countTarget = 5;
+    let countedSoFar = 0;
+
+    function startCountGame() {
+      countTarget = Math.floor(Math.random() * 8) + 2;
+      countedSoFar = 0;
+      document.getElementById('count-target-text').textContent = `Target: ${countTarget}`;
+      document.getElementById('count-status-text').textContent = `Counted: 0`;
+
+      const container = document.getElementById('tap-items-box');
+      container.innerHTML = '';
+      const icons = ['🍎', '⭐', '🎈', '🚗', '🍓', '🧸'];
+      const chosenIcon = icons[Math.floor(Math.random() * icons.length)];
+
+      for (let i = 1; i <= countTarget; i++) {
+        const item = document.createElement('div');
+        item.className = 'tappable-item';
+        item.textContent = chosenIcon;
+        item.onclick = () => {
+          if (!item.classList.contains('counted')) {
+            item.classList.add('counted');
+            countedSoFar++;
+            AudioEngine.playTone(300 + (countedSoFar * 50));
+            AudioEngine.speak(countedSoFar.toString());
+            document.getElementById('count-status-text').textContent = `Counted: ${countedSoFar}`;
+
+            if (countedSoFar === countTarget) {
+              userStars += 10;
+              updateStarDisplay();
+              AudioEngine.speak(`Great job! That is ${countTarget}!`);
+              if (typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 70 });
+              }
+              setTimeout(startCountGame, 2000);
             }
-            animate();
-        }
-
-        // Pointer & Touch Tracing Events
-        function initTracingCanvasEvents() {
-            const dpr = window.devicePixelRatio || 1;
-            traceCanvas.width = 320 * dpr;
-            traceCanvas.height = 320 * dpr;
-            traceCtx.scale(dpr, dpr);
-            traceCanvas.style.width = '320px';
-            traceCanvas.style.height = '320px';
-
-            const getPos = (e) => {
-                const rect = traceCanvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            };
-
-            const onStart = (e) => {
-                e.preventDefault();
-                getWebAudioContext();
-                isTracingDrawing = true;
-                const pos = getPos(e);
-                traceCtx.beginPath();
-                traceCtx.moveTo(pos.x, pos.y);
-                traceCtx.lineCap = 'round';
-                traceCtx.lineJoin = 'round';
-                traceCtx.strokeStyle = traceBrushColor;
-                traceCtx.lineWidth = traceBrushWidth;
-                playSynthTone(340, 'sine', 0.04);
-                recordTracingPixel(pos.x, pos.y);
-            };
-
-            const onMove = (e) => {
-                if (!isTracingDrawing) return;
-                e.preventDefault();
-                const pos = getPos(e);
-                traceCtx.lineTo(pos.x, pos.y);
-                traceCtx.stroke();
-                recordTracingPixel(pos.x, pos.y);
-            };
-
-            const onEnd = () => {
-                if (!isTracingDrawing) return;
-                traceCtx.closePath();
-                isTracingDrawing = false;
-                evaluateTracingCompletion();
-            };
-
-            traceCanvas.addEventListener('mousedown', onStart);
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onEnd);
-
-            traceCanvas.addEventListener('touchstart', onStart, { passive: false });
-            traceCanvas.addEventListener('touchmove', onMove, { passive: false });
-            window.addEventListener('touchend', onEnd);
-        }
-
-        function recordTracingPixel(x, y) {
-            const gridCoord = Math.floor(x / 9) + '_' + Math.floor(y / 9);
-            tracedPointsSet.add(gridCoord);
-            const percentage = Math.min(100, Math.round((tracedPointsSet.size / 60) * 100));
-            updateTracingProgress(percentage);
-        }
-
-        function updateTracingProgress(percent) {
-            document.getElementById('tracingProgressBar').style.width = percent + '%';
-            document.getElementById('tracingProgressLabel').innerText = percent + '% Completed';
-        }
-
-        function evaluateTracingCompletion() {
-            const percent = Math.min(100, Math.round((tracedPointsSet.size / 60) * 100));
-            if (percent >= 65) {
-                if (typeof confetti === 'function') {
-                    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
-                }
-                playFanfareCelebration();
-                speakEnglishPhrase("Terrific! " + getCurrentTracingGlyph());
-                rewardUserStars(1);
-                completedActivitiesCounter++;
-
-                if (completedActivitiesCounter % 3 === 0) {
-                    setTimeout(() => {
-                        document.getElementById('naturalBreakModal').classList.remove('hidden');
-                    }, 800);
-                } else {
-                    setTimeout(advanceNextTracingItem, 1300);
-                }
-            }
-        }
-
-        function advanceNextTracingItem() {
-            const dataset = getActiveTracingDataset();
-            currentTracingIndex = (currentTracingIndex + 1) % dataset.length;
-            renderTracingWorkspace();
-        }
-
-        function clearTracingCanvas() {
-            playSynthPop();
-            drawBaseLetterTemplate();
-        }
-
-        function setTracingBrushColor(color) {
-            traceBrushColor = color;
-            playSynthPop();
-        }
-
-        function speakCurrentTracingPrompt() {
-            const item = getCurrentTracingItem();
-            speakEnglishPhrase(item.phonic);
-        }
-
-        /**
-         * MODULE 2: PHONICS LAB (RESPONSIVE AUTO-FIT)
-         */
-        function renderPhonicsCards(filter = 'all') {
-            const grid = document.getElementById('phonicsCardsGrid');
-            grid.innerHTML = '';
-            const dataset = filter === 'numbers' ? numbersData : fullAlphabetData;
-
-            dataset.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-2.5 sm:p-3 rounded-2xl border-2 border-sky-200 shadow-sm hover:shadow-md text-center cursor-pointer transform hover:-translate-y-1 transition duration-150 flex flex-col items-center justify-between";
-                card.onclick = () => {
-                    playSynthPop();
-                    speakEnglishPhrase(item.phonic);
-                    card.classList.add('scale-105', 'border-indigo-400');
-                    setTimeout(() => card.classList.remove('scale-105', 'border-indigo-400'), 300);
-                };
-                card.innerHTML = `
-                    <div class="text-2xl sm:text-3xl font-black text-sky-600">${item.upper} <span class="text-xs text-sky-400">${item.lower || ''}</span></div>
-                    <div class="text-3xl sm:text-4xl my-1 animate-float">${item.emoji}</div>
-                    <div class="text-[11px] sm:text-xs font-black text-slate-700 leading-tight">${item.word}</div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function filterPhonicsCategory(cat) {
-            playSynthPop();
-            renderPhonicsCards(cat);
-        }
-
-        /**
-         * MODULE 3: KIDS READ-ALONG VOICE CHALLENGE (Web Speech API)
-         */
-        let currentVoiceIndex = 0;
-        let speechRecognizer = null;
-        let isListening = false;
-
-        function loadNewVoiceChallenge() {
-            currentVoiceIndex = Math.floor(Math.random() * fullAlphabetData.length);
-            const target = fullAlphabetData[currentVoiceIndex];
-
-            document.getElementById('voiceTargetEmoji').innerText = target.emoji;
-            document.getElementById('voiceTargetWord').innerText = target.word;
-            document.getElementById('voiceTargetPhonic').innerText = `Letter "${target.upper}"`;
-            document.getElementById('micStatusText').innerText = `Tap mic and say "${target.word}"`;
-            document.getElementById('speechResultBanner').classList.add('hidden');
-
-            speakEnglishPhrase(`Can you say, ${target.word}?`);
-        }
-
-        function speakCurrentVoiceTarget() {
-            const target = fullAlphabetData[currentVoiceIndex];
-            speakEnglishPhrase(target.word);
-        }
-
-        function toggleMicrophoneListening() {
-            getWebAudioContext();
-            const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-            if (!SpeechRecognitionClass) {
-                alertToast("Voice recognition requires Chrome or Safari. Awarding star for practicing!");
-                onVoiceSuccess();
-                return;
-            }
-
-            if (isListening && speechRecognizer) {
-                speechRecognizer.stop();
-                return;
-            }
-
-            try {
-                speechRecognizer = new SpeechRecognitionClass();
-                speechRecognizer.lang = 'en-US';
-                speechRecognizer.continuous = false;
-                speechRecognizer.interimResults = false;
-
-                const micBtn = document.getElementById('micListeningBtn');
-                const statusText = document.getElementById('micStatusText');
-                const banner = document.getElementById('speechResultBanner');
-
-                speechRecognizer.onstart = () => {
-                    isListening = true;
-                    micBtn.classList.add('animate-pulse', 'ring-4', 'ring-pink-300');
-                    statusText.innerText = "Listening... Speak clearly now!";
-                    banner.classList.remove('hidden');
-                    banner.innerText = "Listening to your voice...";
-                };
-
-                speechRecognizer.onresult = (event) => {
-                    const spokenText = event.results[0][0].transcript.toLowerCase();
-                    const targetWord = fullAlphabetData[currentVoiceIndex].word.toLowerCase();
-                    banner.innerText = `You said: "${spokenText}"`;
-
-                    if (spokenText.includes(targetWord) || spokenText.includes(fullAlphabetData[currentVoiceIndex].upper.toLowerCase())) {
-                        onVoiceSuccess();
-                    } else {
-                        playSynthTone(220, 'sawtooth', 0.2);
-                        speakEnglishPhrase("Good try! Let's say it together: " + targetWord);
-                    }
-                };
-
-                speechRecognizer.onerror = () => {
-                    statusText.innerText = "Tap mic to try again!";
-                };
-
-                speechRecognizer.onend = () => {
-                    isListening = false;
-                    micBtn.classList.remove('animate-pulse', 'ring-4', 'ring-pink-300');
-                };
-
-                speechRecognizer.start();
-            } catch (err) {
-                alertToast("Microphone permitted! Practice speaking aloud.");
-            }
-        }
-
-        function onVoiceSuccess() {
-            if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60 });
-            playFanfareCelebration();
-            speakEnglishPhrase("Fantastic speaking! You earned a star!");
-            rewardUserStars(1);
-            setTimeout(loadNewVoiceChallenge, 1500);
-        }
-
-        function skipVoiceTarget() {
-            playSynthPop();
-            loadNewVoiceChallenge();
-        }
-
-        /**
-         * MODULE 4: GLOW COLORING & DOODLE PAD
-         */
-        const doodleCanvas = document.getElementById('doodleCanvas');
-        const doodleCtx = doodleCanvas.getContext('2d');
-        let doodleColor = '#22d3ee';
-        let isDoodling = false;
-
-        function initDoodleCanvas() {
-            const dpr = window.devicePixelRatio || 1;
-            doodleCanvas.width = 340 * dpr;
-            doodleCanvas.height = 340 * dpr;
-            doodleCtx.scale(dpr, dpr);
-            doodleCanvas.style.width = '340px';
-            doodleCanvas.style.height = '340px';
-
-            clearDoodleCanvas();
-
-            const getPos = (e) => {
-                const rect = doodleCanvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            };
-
-            const onStart = (e) => {
-                e.preventDefault();
-                getWebAudioContext();
-                isDoodling = true;
-                const pos = getPos(e);
-                doodleCtx.beginPath();
-                doodleCtx.moveTo(pos.x, pos.y);
-                doodleCtx.lineCap = 'round';
-                doodleCtx.lineJoin = 'round';
-                doodleCtx.strokeStyle = doodleColor;
-                doodleCtx.shadowColor = doodleColor;
-                doodleCtx.shadowBlur = 12;
-                doodleCtx.lineWidth = 14;
-                playSynthTone(400, 'sine', 0.03);
-            };
-
-            const onMove = (e) => {
-                if (!isDoodling) return;
-                e.preventDefault();
-                const pos = getPos(e);
-                doodleCtx.lineTo(pos.x, pos.y);
-                doodleCtx.stroke();
-            };
-
-            const onEnd = () => {
-                if (!isDoodling) return;
-                doodleCtx.closePath();
-                isDoodling = false;
-            };
-
-            doodleCanvas.addEventListener('mousedown', onStart);
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onEnd);
-
-            doodleCanvas.addEventListener('touchstart', onStart, { passive: false });
-            doodleCanvas.addEventListener('touchmove', onMove, { passive: false });
-            window.addEventListener('touchend', onEnd);
-        }
-
-        function setNeonGlowColor(color) {
-            doodleColor = color;
-            playSynthPop();
-        }
-
-        function clearDoodleCanvas() {
-            playSynthPop();
-            doodleCtx.fillStyle = '#090d16';
-            doodleCtx.fillRect(0, 0, 340, 340);
-        }
-
-        function stampDoodleEmoji(emoji) {
-            playSynthPop();
-            doodleCtx.font = '45px serif';
-            doodleCtx.shadowColor = '#fbbf24';
-            doodleCtx.shadowBlur = 10;
-            const rx = Math.random() * 240 + 30;
-            const ry = Math.random() * 240 + 50;
-            doodleCtx.fillText(emoji, rx, ry);
-        }
-
-        function downloadDoodleArtwork() {
-            playSynthPop();
-            const link = document.createElement('a');
-            link.download = 'quicklearn-art.png';
-            link.href = doodleCanvas.toDataURL();
-            link.click();
-            alertToast("Masterpiece saved to your photos!");
-        }
-
-        /**
-         * MODULE 5: VIRTUAL TOY PLAYROOM & STREAK
-         */
-        function renderToyRoom() {
-            document.getElementById('toyroomStarsCounter').innerText = globalStars;
-            const floor = document.getElementById('playroomFloor');
-            floor.innerHTML = '';
-
-            if (unlockedToys.length === 0) {
-                floor.innerHTML = '<span class="text-xs text-amber-800 font-bold">Your toy room is empty! Unlock toys below using your stars!</span>';
-            } else {
-                unlockedToys.forEach(toyId => {
-                    const item = toyShopInventory.find(t => t.id === toyId);
-                    if (item) {
-                        const toyEl = document.createElement('div');
-                        toyEl.className = "text-5xl sm:text-6xl cursor-pointer transform hover:scale-125 transition btn-bouncy p-2";
-                        toyEl.innerText = item.emoji;
-                        toyEl.title = item.name + " (Tap to play)";
-                        toyEl.onclick = () => {
-                            playSynthTone(item.sound, 'triangle', 0.25);
-                            if (typeof confetti === 'function') confetti({ particleCount: 25, spread: 40 });
-                            toyEl.classList.add('animate-bounce');
-                            setTimeout(() => toyEl.classList.remove('animate-bounce'), 800);
-                        };
-                        floor.appendChild(toyEl);
-                    }
-                });
-            }
-
-            // Render Shop Catalog
-            const shopGrid = document.getElementById('toyShopGrid');
-            shopGrid.innerHTML = '';
-            toyShopInventory.forEach(toy => {
-                const isOwned = unlockedToys.includes(toy.id);
-                const canAfford = globalStars >= toy.cost;
-
-                const card = document.createElement('div');
-                card.className = `p-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-between ${isOwned ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-slate-200 shadow-sm'}`;
-
-                card.innerHTML = `
-                    <div class="text-3xl mb-1 ${isOwned ? '' : 'filter grayscale opacity-70'}">${toy.emoji}</div>
-                    <div class="text-xs font-black text-slate-800">${toy.name}</div>
-                    <div class="text-[10px] font-bold text-slate-500 mt-0.5">${isOwned ? '✅ Owned' : '⭐ ' + toy.cost + ' Stars'}</div>
-                    ${!isOwned ? `<button onclick="buyToyFromShop('${toy.id}', ${toy.cost})" class="mt-2 text-[10px] font-black px-2.5 py-1 rounded-xl btn-bouncy ${canAfford ? 'bg-amber-400 hover:bg-amber-500 text-amber-950' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}">${canAfford ? 'Unlock' : 'Need Stars'}</button>` : ''}
-                `;
-                shopGrid.appendChild(card);
-            });
-        }
-
-        function buyToyFromShop(toyId, cost) {
-            if (globalStars >= cost && !unlockedToys.includes(toyId)) {
-                globalStars -= cost;
-                unlockedToys.push(toyId);
-                localStorage.setItem('ql_stars', globalStars.toString());
-                localStorage.setItem('ql_unlocked_toys', JSON.stringify(unlockedToys));
-                syncStarsUI();
-                playFanfareCelebration();
-                if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60 });
-                renderToyRoom();
-                alertToast("Toy unlocked! Check your playroom!");
-            } else {
-                playSynthTone(220, 'sawtooth', 0.2);
-            }
-        }
-
-        function rewardUserStars(amt) {
-            globalStars += amt;
-            localStorage.setItem('ql_stars', globalStars.toString());
-            syncStarsUI();
-        }
-
-        function syncStarsUI() {
-            document.getElementById('globalStarsDisplay').innerText = globalStars;
-            const toyStars = document.getElementById('toyroomStarsCounter');
-            if (toyStars) toyStars.innerText = globalStars;
-        }
-
-        /**
-         * NATURAL BREAK & CELEBRATION MODAL
-         */
-        function dismissNaturalBreakModal() {
-            playSynthPop();
-            document.getElementById('naturalBreakModal').classList.add('hidden');
-            rewardUserStars(2);
-            advanceNextTracingItem();
-        }
-
-        /**
-         * PARENTAL GATE (Child Safe Math Lock)
-         */
-        let currentParentAnswer = 0;
-
-        function openParentGateModal() {
-            playSynthPop();
-            const n1 = Math.floor(Math.random() * 6) + 3;
-            const n2 = Math.floor(Math.random() * 5) + 2;
-            currentParentAnswer = n1 + n2;
-            document.getElementById('parentGateEquation').innerText = `${n1} + ${n2} = ?`;
-            document.getElementById('parentGateInput').value = '';
-            document.getElementById('parentalGateModal').classList.remove('hidden');
-        }
-
-        function closeParentGateModal() {
-            document.getElementById('parentalGateModal').classList.add('hidden');
-        }
-
-        function verifyParentGateAnswer() {
-            const entered = parseInt(document.getElementById('parentGateInput').value);
-            if (entered === currentParentAnswer) {
-                closeParentGateModal();
-                alertToast("Parent authorization verified. Settings & Ad Policies conform to COPPA rules.");
-            } else {
-                playSynthTone(220, 'sawtooth', 0.2);
-                alertToast("Incorrect answer. Please try again.");
-            }
-        }
-
-        function alertToast(msg) {
-            const toast = document.createElement('div');
-            toast.className = "fixed bottom-14 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-2xl shadow-2xl z-50 transition";
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2800);
-        }
-
-        /**
-         * APP INITIALIZATION
-         */
-        window.onload = function () {
-            syncStarsUI();
-            setupVoicesListener();
-            initTracingCanvasEvents();
-
-            // Set Initial History State
-            history.replaceState({ view: 'home' }, '', '#home');
-
-            // Global Touch Listener to Unlock Audio Seamlessly
-            const onFirstTouch = () => {
-                getWebAudioContext();
-                const pill = document.getElementById('audioUnlockPill');
-                if (pill) pill.classList.add('hidden');
-                document.removeEventListener('touchstart', onFirstTouch);
-                document.removeEventListener('click', onFirstTouch);
-            };
-            document.addEventListener('touchstart', onFirstTouch, { once: true });
-            document.addEventListener('click', onFirstTouch, { once: true });
+          }
         };
-    </script>
+        container.appendChild(item);
+      }
+    }
+
+    /* =========================================================
+       8. TOY PLAYROOM & PERSISTENCE
+       ========================================================= */
+    const TOYS = [
+      { name: 'Teddy Bear', icon: '🧸', price: 15 },
+      { name: 'Toy Rocket', icon: '🚀', price: 25 },
+      { name: 'Race Car', icon: '🏎️', price: 35 },
+      { name: 'Robot Pal', icon: '🤖', price: 50 },
+      { name: 'Golden Trophy', icon: '🏆', price: 100 }
+    ];
+
+    function updateStarDisplay() {
+      document.getElementById('user-stars').textContent = userStars;
+      localStorage.setItem('quicklearn_stars', userStars);
+    }
+
+    function initPlayroom() {
+      const grid = document.getElementById('toys-grid');
+      grid.innerHTML = '';
+      const unlocked = JSON.parse(localStorage.getItem('quicklearn_toys') || '[]');
+
+      TOYS.forEach(toy => {
+        const isOwned = unlocked.includes(toy.name);
+        const card = document.createElement('div');
+        card.className = 'action-card';
+        card.innerHTML = `
+          <div class="badge" style="${isOwned ? '' : 'filter: grayscale(100%); opacity:0.5;'}">${toy.icon}</div>
+          <h4>${toy.name}</h4>
+          <span>${isOwned ? '✅ Unlocked' : `⭐ ${toy.price} Stars`}</span>
+        `;
+        card.onclick = () => {
+          if (!isOwned) {
+            if (userStars >= toy.price) {
+              userStars -= toy.price;
+              unlocked.push(toy.name);
+              localStorage.setItem('quicklearn_toys', JSON.stringify(unlocked));
+              updateStarDisplay();
+              initPlayroom();
+              AudioEngine.speak(`You unlocked the ${toy.name}!`);
+            } else {
+              AudioEngine.speak(`You need ${toy.price - userStars} more stars!`);
+            }
+          }
+        };
+        grid.appendChild(card);
+      });
+    }
+
+    /* =========================================================
+       9. PWA INSTALL HANDLER
+       ========================================================= */
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('btn-install');
+      if (installBtn) installBtn.style.display = 'flex';
+    });
+
+    function triggerPWAInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          document.getElementById('btn-install').style.display = 'none';
+        });
+      }
+    }
+
+    /* =========================================================
+       10. APPLICATION BOOTSTRAP
+       ========================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      updateStarDisplay();
+      initABCBar();
+      initNumberBar();
+      initPlayroom();
+      startCountGame();
+      window.addEventListener('resize', setupCanvasDPI);
+    });
+  </script>
 </body>
 </html>
-`
