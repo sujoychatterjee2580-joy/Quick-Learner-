@@ -1,0 +1,966 @@
+```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QuickLearn (কুইকলান) - Kids Tracing, Phonics & Games</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Hind+Siliguri:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', 'Hind Siliguri', cursive, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* 3D Button Press Effect */
+        .btn-3d {
+            transition: all 0.08s ease;
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.16);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.16);
+        }
+
+        /* Floating Animation */
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: gentle-float 3s ease-in-out infinite;
+        }
+
+        /* Balloon Pop Animation */
+        @keyframes balloon-rise {
+            0% { transform: translateY(110vh) scale(0.9); opacity: 0.9; }
+            100% { transform: translateY(-20vh) scale(1.05); opacity: 1; }
+        }
+        .floating-balloon {
+            position: absolute;
+            animation: balloon-rise 7s linear infinite;
+        }
+
+        #drawingCanvas {
+            touch-action: none;
+            cursor: pointer;
+        }
+
+        /* Progress ring glow */
+        .ring-glow {
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50 via-sky-50 to-pink-50 min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden">
+
+    <!-- GLOBAL AUDIO UNLOCK OVERLAY (For Mobile Safari & Android Chrome) -->
+    <div id="audioUnlockNotice" onclick="unlockAudioDirectly()" class="fixed top-2 left-1/2 transform -translate-x-1/2 z-50 bg-indigo-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2 cursor-pointer transition hover:bg-indigo-700 animate-bounce">
+        <span>🔊</span> সাউন্ড চালু করতে এখানে একবার ট্যাপ করো (Tap to enable Voice)
+    </div>
+
+    <!-- TOP HEADER -->
+    <header class="w-full bg-white/95 backdrop-blur-md border-b-4 border-amber-300 py-2 px-3 sm:px-4 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            
+            <!-- Logo & Brand -->
+            <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('home')">
+                <span class="text-3xl animate-float">🎈</span>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 bg-clip-text text-transparent leading-none">
+                        QuickLearn <span class="text-xs bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded-full ml-1">কুইকলান</span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-bold hidden sm:block">ট্রেসিং • ফোনিক্স • মজার গেম</p>
+                </div>
+            </div>
+
+            <!-- Stats & Navigation Tools -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Stars Collected -->
+                <div class="flex items-center gap-1.5 bg-amber-100/80 border-2 border-amber-400 px-3 py-1 rounded-full shadow-inner">
+                    <span class="text-lg">⭐</span>
+                    <span id="starCounter" class="font-black text-amber-800 text-base">0</span>
+                </div>
+
+                <!-- Sound FX Toggle -->
+                <button id="soundToggleBtn" onclick="toggleAudio()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 flex items-center justify-center text-base btn-3d shadow-sm" title="সাউন্ড চালু/বন্ধ">
+                    🔊
+                </button>
+
+                <!-- Stickers Album -->
+                <button onclick="showSection('stickers')" class="bg-purple-500 hover:bg-purple-600 text-white font-bold px-3 py-1.5 rounded-2xl border-b-4 border-purple-700 btn-3d text-xs sm:text-sm flex items-center gap-1">
+                    <span>🏆</span>
+                    <span class="hidden sm:inline">রিওয়ার্ড</span>
+                </button>
+
+                <!-- Parent Gate (Safe Zone) -->
+                <button onclick="openParentGate()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 flex items-center justify-center text-xs font-bold text-slate-600 shadow-sm" title="প্যারেন্টস জোন">
+                    ⚙️
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-4xl w-full mx-auto p-3 sm:p-4 flex-grow flex flex-col justify-center">
+
+        <!-- 1. HOME DASHBOARD -->
+        <section id="section-home" class="space-y-6">
+            <div class="text-center py-3">
+                <span class="inline-block bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full mb-2">🎉 এসো আনন্দের সাথে শিখি</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-800 drop-shadow-sm">
+                    তুমি আজ কোনটি খেলবে?
+                </h2>
+                <p class="text-slate-600 text-xs sm:text-sm font-semibold mt-1">পছন্দের খেলায় ট্যাপ করো:</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Tracing A-Z -->
+                <div onclick="openTracingMode('A')" class="bg-gradient-to-b from-emerald-400 to-teal-500 rounded-3xl p-5 text-white text-center border-b-8 border-teal-700 btn-3d cursor-pointer transform hover:-translate-y-1 transition">
+                    <div class="text-5xl mb-2">✍️</div>
+                    <h3 class="text-xl font-black">ট্রেসিং (Tracing)</h3>
+                    <p class="text-teal-100 text-xs mt-1 font-medium">আঙুল দিয়ে দাগ টেনে অক্ষর লেখা</p>
+                    <span class="inline-block mt-3 bg-white text-teal-700 font-bold px-3 py-1 rounded-xl shadow text-xs">শুরু করো ➜</span>
+                </div>
+
+                <!-- Phonics Voice -->
+                <div onclick="showSection('phonics')" class="bg-gradient-to-b from-sky-400 to-blue-500 rounded-3xl p-5 text-white text-center border-b-8 border-blue-700 btn-3d cursor-pointer transform hover:-translate-y-1 transition">
+                    <div class="text-5xl mb-2">🗣️</div>
+                    <h3 class="text-xl font-black">উচ্চারণ (Phonics)</h3>
+                    <p class="text-sky-100 text-xs mt-1 font-medium">অক্ষর শুনে সঠিক উচ্চারণ শেখা</p>
+                    <span class="inline-block mt-3 bg-white text-blue-700 font-bold px-3 py-1 rounded-xl shadow text-xs">শোনো ➜</span>
+                </div>
+
+                <!-- Balloon Pop Game -->
+                <div onclick="startBalloonGame()" class="bg-gradient-to-b from-fuchsia-400 to-pink-500 rounded-3xl p-5 text-white text-center border-b-8 border-pink-700 btn-3d cursor-pointer transform hover:-translate-y-1 transition">
+                    <div class="text-5xl mb-2">🎈</div>
+                    <h3 class="text-xl font-black">বেলুন পপ (Game)</h3>
+                    <p class="text-pink-100 text-xs mt-1 font-medium">সঠিক অক্ষরের বেলুন ফাটাও</p>
+                    <span class="inline-block mt-3 bg-white text-pink-700 font-bold px-3 py-1 rounded-xl shadow text-xs">খেলো ➜</span>
+                </div>
+
+                <!-- Matching Quiz -->
+                <div onclick="startMatchGame()" class="bg-gradient-to-b from-amber-400 to-orange-500 rounded-3xl p-5 text-white text-center border-b-8 border-orange-700 btn-3d cursor-pointer transform hover:-translate-y-1 transition">
+                    <div class="text-5xl mb-2">🧩</div>
+                    <h3 class="text-xl font-black">ম্যাচিং (Quiz)</h3>
+                    <p class="text-amber-100 text-xs mt-1 font-medium">ছবি দেখে বর্ণ মেলানোর খেলা</p>
+                    <span class="inline-block mt-3 bg-white text-orange-700 font-bold px-3 py-1 rounded-xl shadow text-xs">মেলাও ➜</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. TRACING WORKSPACE -->
+        <section id="section-tracing" class="hidden flex-col items-center">
+            
+            <!-- Controls Bar -->
+            <div class="w-full flex items-center justify-between mb-3 bg-white/90 p-2 sm:p-3 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="showSection('home')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs sm:text-sm btn-3d">
+                    ⬅ হোম
+                </button>
+
+                <!-- Scrollable Alphabet Selector -->
+                <div class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] sm:max-w-md px-1 py-1" id="letterPickerRow"></div>
+
+                <button onclick="speakCurrentLetterDirectly()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-3 py-1.5 rounded-xl text-xs sm:text-sm btn-3d flex items-center gap-1">
+                    <span>🔊</span> <span class="hidden sm:inline">উচ্চারণ</span>
+                </button>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative bg-white rounded-3xl border-4 border-indigo-300 shadow-xl p-2 flex flex-col items-center ring-glow">
+                <canvas id="drawingCanvas" width="320" height="320" class="rounded-2xl bg-amber-50/60"></canvas>
+
+                <!-- Tracing Progress Indicator -->
+                <div class="w-full bg-slate-100 h-3 rounded-full mt-2 overflow-hidden border border-slate-200">
+                    <div id="tracingProgressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full transition-all duration-200" style="width: 0%"></div>
+                </div>
+
+                <div class="flex justify-between w-full px-2 mt-1 text-[11px] font-bold text-slate-500">
+                    <span>আঙুল দিয়ে দাগ দাও ✍️</span>
+                    <span id="tracingProgressText">০% পূর্ণ</span>
+                </div>
+            </div>
+
+            <!-- Brush & Action Controls -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-3">
+                <button onclick="clearTracingCanvas()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-3 py-1.5 rounded-xl border-b-4 border-rose-700 btn-3d text-xs sm:text-sm">
+                    🔄 মুছো
+                </button>
+
+                <!-- Color Palette -->
+                <div class="flex items-center gap-1.5 bg-white p-1.5 rounded-2xl border border-slate-300 shadow-sm">
+                    <button onclick="setBrushColor('#ef4444')" class="w-7 h-7 rounded-full bg-red-500 ring-2 ring-red-200"></button>
+                    <button onclick="setBrushColor('#3b82f6')" class="w-7 h-7 rounded-full bg-blue-500 ring-2 ring-blue-200"></button>
+                    <button onclick="setBrushColor('#10b981')" class="w-7 h-7 rounded-full bg-emerald-500 ring-2 ring-emerald-200"></button>
+                    <button onclick="setBrushColor('#f59e0b')" class="w-7 h-7 rounded-full bg-amber-500 ring-2 ring-amber-200"></button>
+                    <button onclick="setBrushColor('#a855f7')" class="w-7 h-7 rounded-full bg-purple-500 ring-2 ring-purple-200"></button>
+                </div>
+
+                <button onclick="nextLetter()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-1.5 rounded-xl border-b-4 border-emerald-700 btn-3d text-xs sm:text-sm flex items-center gap-1">
+                    <span>পরবর্তী বর্ণ</span> ➜
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. PHONICS AUDIO CARDS -->
+        <section id="section-phonics" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs sm:text-sm btn-3d">
+                    ⬅ হোম
+                </button>
+                <h2 class="text-lg sm:text-xl font-bold text-sky-800">অক্ষর ও ধ্বনি শোনো (Phonics)</h2>
+                <div class="w-12"></div>
+            </div>
+
+            <div id="phonicsGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-[62vh] overflow-y-auto p-1">
+                <!-- Rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- 4. BALLOON POP MINI-GAME -->
+        <section id="section-balloon" class="hidden flex-col items-center relative overflow-hidden h-[70vh] bg-gradient-to-b from-sky-200 to-indigo-100 rounded-3xl border-4 border-indigo-200 shadow-inner p-4">
+            <div class="w-full flex items-center justify-between z-10 bg-white/80 backdrop-blur-sm p-2 rounded-2xl border border-sky-300">
+                <button onclick="stopBalloonGame()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1 rounded-xl text-xs btn-3d">
+                    ⬅ শেষ করো
+                </button>
+                <div class="text-sm font-black text-indigo-700">
+                    লক্ষ্য: <span id="targetBalloonChar" class="text-xl bg-amber-300 px-2.5 py-0.5 rounded-lg ml-1 shadow">A</span> বর্ণটি ফাটাও!
+                </div>
+                <div class="font-bold text-xs text-amber-600">পয়েন্ট: <span id="balloonScore">0</span></div>
+            </div>
+
+            <!-- Active Balloons Space -->
+            <div id="balloonSky" class="w-full h-full relative overflow-hidden">
+                <!-- Balloons dynamically injected -->
+            </div>
+        </section>
+
+        <!-- 5. MATCHING QUIZ GAME -->
+        <section id="section-quiz" class="hidden flex-col items-center space-y-4 text-center">
+            <div class="w-full flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs btn-3d">
+                    ⬅ হোম
+                </button>
+                <div class="font-bold text-amber-700 text-sm">পয়েন্ট: <span id="quizScore">0</span></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-orange-300 max-w-md w-full">
+                <span class="text-xs font-bold text-slate-400 block mb-1">ছবি দেখে সঠিক বর্ণটি বেছে নাও:</span>
+                <div id="quizPromptEmoji" class="text-7xl my-2 cursor-pointer transform hover:scale-110 transition" onclick="speakCurrentQuiz()">🍎</div>
+                <div id="quizPromptWord" class="text-2xl font-black text-slate-700 mb-4">Apple</div>
+
+                <div id="quizOptions" class="grid grid-cols-3 gap-3"></div>
+            </div>
+        </section>
+
+        <!-- 6. STICKERS & REWARDS -->
+        <section id="section-stickers" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <button onclick="showSection('home')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs btn-3d">
+                    ⬅ হোম
+                </button>
+                <h2 class="text-lg sm:text-xl font-bold text-purple-800">আমার স্টিকার ট্রফি 🏆</h2>
+                <div class="w-12"></div>
+            </div>
+
+            <div class="bg-white/90 p-4 sm:p-6 rounded-3xl border-4 border-purple-200 shadow-lg">
+                <p class="text-xs text-slate-500 font-semibold mb-3">ট্রেসিং বা গেম খেলে স্টার জমিয়ে চমৎকার স্টিকার উপহার নাও!</p>
+                <div id="stickersGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 text-center"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- CHILD-FRIENDLY MONETIZATION SECTION (AD CONTAINER) -->
+    <!-- Non-intrusive, well-isolated to prevent misclicks, AdSense-compliant -->
+    <aside class="w-full bg-white/80 border-t border-slate-200 py-2 px-3 flex flex-col items-center justify-center mt-2">
+        <div class="flex items-center justify-between w-full max-w-2xl mb-1 px-1">
+            <span class="text-[9px] tracking-wider text-slate-400 uppercase font-semibold">বিজ্ঞাপন • Child-Friendly Advertisement</span>
+            <span class="text-[9px] text-slate-400">পরিবার বান্ধব বিজ্ঞাপন</span>
+        </div>
+
+        <div id="adSlotBanner" class="w-full max-w-2xl h-[55px] sm:h-[80px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex items-center justify-center overflow-hidden">
+            <!-- Google AdSense / Ad Exchange tag goes here -->
+            <div class="text-center text-slate-500 text-xs px-2 flex items-center gap-2">
+                <span class="text-lg">📢</span>
+                <div>
+                    <span class="font-bold text-[11px] sm:text-xs">Google AdSense / Banner Ad Space</span>
+                    <p class="text-[9px] text-slate-400">বাচ্চাদের পড়ার কোনো ডিস্টার্ব না করে নির্ধারিত স্থানে সুরক্ষিত বিজ্ঞাপন</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- NATURAL BREAK REWARD MODAL (Interstitials with high CPM) -->
+    <div id="naturalBreakModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border-4 border-amber-300">
+            <div class="text-5xl mb-2">🌟</div>
+            <h3 class="text-2xl font-black text-slate-800">অসাধারণ কাজ!</h3>
+            <p class="text-slate-600 text-xs mt-1 mb-4 font-semibold">তুমি বেশ কয়েকটি অক্ষর সফলভাবে সম্পন্ন করেছ!</p>
+
+            <!-- Video / Interstitial Ad Box Placeholder -->
+            <div class="bg-slate-50 rounded-2xl border-2 border-dashed border-slate-300 p-3 mb-4">
+                <span class="text-[10px] text-slate-400 font-bold uppercase block mb-1">স্পনসরড বিজ্ঞাপন (Ad Break)</span>
+                <div class="h-24 bg-slate-200/90 rounded-xl flex items-center justify-center text-xs text-slate-500 font-semibold p-2">
+                    [ Interstitial / Rewarded Ad ]<br>
+                    গুগল অ্যাডসেন্স ভিডিও বা ব্যানার বিজ্ঞাপন
+                </div>
+            </div>
+
+            <button onclick="closeNaturalBreakModal()" class="w-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white font-black py-2.5 rounded-2xl border-b-4 border-teal-700 btn-3d text-sm">
+                🎁 খেলা চালিয়ে যাও (+১ স্টার)
+            </button>
+        </div>
+    </div>
+
+    <!-- PARENTAL GATE MODAL -->
+    <div id="parentGateModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xs w-full p-5 text-center shadow-2xl border-4 border-slate-300">
+            <div class="text-3xl mb-1">🔒</div>
+            <h3 class="text-lg font-black text-slate-800">অভিভাবক জোন (Parents Only)</h3>
+            <p class="text-slate-500 text-xs mt-1 mb-3">নিচের সাধারণ হিসাবটি সমাধান করুন:</p>
+
+            <div id="mathEquation" class="text-xl font-bold bg-slate-100 py-2 rounded-xl mb-3 text-indigo-700">3 + 4 = ?</div>
+            <input type="number" id="mathAnswerInput" class="w-full text-center text-lg font-bold border-2 border-slate-300 rounded-xl py-1.5 mb-3 focus:outline-none focus:border-indigo-500" placeholder="উত্তর লিখুন">
+
+            <div class="flex gap-2">
+                <button onclick="closeParentGate()" class="flex-1 bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs">বাতিল</button>
+                <button onclick="checkParentGateAnswer()" class="flex-1 bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs">প্রবেশ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC & SOUND ENGINE -->
+    <script>
+        // Curriculum Data
+        const alphabetData = [
+            { char: 'A', bangla: 'এ', word: 'Apple', emoji: '🍎', phonic: 'A for Apple', soundText: 'A, Apple' },
+            { char: 'B', bangla: 'বি', word: 'Ball', emoji: '⚽', phonic: 'B for Ball', soundText: 'B, Ball' },
+            { char: 'C', bangla: 'সি', word: 'Cat', emoji: '🐱', phonic: 'C for Cat', soundText: 'C, Cat' },
+            { char: 'D', bangla: 'ডি', word: 'Duck', emoji: '🦆', phonic: 'D for Duck', soundText: 'D, Duck' },
+            { char: 'E', bangla: 'ই', word: 'Elephant', emoji: '🐘', phonic: 'E for Elephant', soundText: 'E, Elephant' },
+            { char: 'F', bangla: 'এফ', word: 'Fish', emoji: '🐟', phonic: 'F for Fish', soundText: 'F, Fish' },
+            { char: 'G', bangla: 'জি', word: 'Grapes', emoji: '🍇', phonic: 'G for Grapes', soundText: 'G, Grapes' },
+            { char: 'H', bangla: 'এইচ', word: 'Hat', emoji: '👒', phonic: 'H for Hat', soundText: 'H, Hat' },
+            { char: 'I', bangla: 'আই', word: 'Ice-cream', emoji: '🍦', phonic: 'I for Ice cream', soundText: 'I, Ice cream' },
+            { char: 'J', bangla: 'জে', word: 'Juice', emoji: '🧃', phonic: 'J for Juice', soundText: 'J, Juice' },
+            { char: 'K', bangla: 'কে', word: 'Kite', emoji: '🪁', phonic: 'K for Kite', soundText: 'K, Kite' },
+            { char: 'L', bangla: 'এল', word: 'Lion', emoji: '🦁', phonic: 'L for Lion', soundText: 'L, Lion' },
+            { char: 'M', bangla: 'এম', word: 'Mango', emoji: '🥭', phonic: 'M for Mango', soundText: 'M, Mango' },
+            { char: 'N', bangla: 'এন', word: 'Nest', emoji: '🪺', phonic: 'N for Nest', soundText: 'N, Nest' },
+            { char: 'O', bangla: 'ও', word: 'Orange', emoji: '🍊', phonic: 'O for Orange', soundText: 'O, Orange' },
+            { char: 'P', bangla: 'পি', word: 'Pencil', emoji: '✏️', phonic: 'P for Pencil', soundText: 'P, Pencil' },
+            { char: 'Q', bangla: 'কিউ', word: 'Queen', emoji: '👑', phonic: 'Q for Queen', soundText: 'Q, Queen' },
+            { char: 'R', bangla: 'আর', word: 'Rainbow', emoji: '🌈', phonic: 'R for Rainbow', soundText: 'R, Rainbow' },
+            { char: 'S', bangla: 'এস', word: 'Sun', emoji: '☀️', phonic: 'S for Sun', soundText: 'S, Sun' },
+            { char: 'T', bangla: 'টি', word: 'Tiger', emoji: '🐯', phonic: 'T for Tiger', soundText: 'T, Tiger' },
+            { char: '1', bangla: 'এক', word: 'One', emoji: '☝️', phonic: 'Number One', soundText: 'Number One' },
+            { char: '2', bangla: 'দুই', word: 'Two', emoji: '✌️', phonic: 'Number Two', soundText: 'Number Two' },
+            { char: '3', bangla: 'তিন', word: 'Three', emoji: '🤟', phonic: 'Number Three', soundText: 'Number Three' }
+        ];
+
+        // Stickers
+        const stickersList = [
+            { id: 1, name: 'গোল্ডেন স্টার', emoji: '🌟', minStars: 1 },
+            { id: 2, name: 'বুদ্ধিমান পেঁচা', emoji: '🦉', minStars: 3 },
+            { id: 3, name: 'চ্যাম্পিয়ন কাপ', emoji: '🏆', minStars: 6 },
+            { id: 4, name: 'রকেট স্পিড', emoji: '🚀', minStars: 9 },
+            { id: 5, name: 'মিষ্টি টেডি', emoji: '🧸', minStars: 12 },
+            { id: 6, name: 'ডাইনো ফ্রেন্ড', emoji: '🦖', minStars: 16 }
+        ];
+
+        // App States
+        let currentLetter = 'A';
+        let brushColor = '#ef4444';
+        let brushSize = 22;
+        let isDrawing = false;
+        let soundEnabled = true;
+        let totalStars = parseInt(localStorage.getItem('quicklearn_stars') || '0');
+        let activitiesCompleted = 0;
+        let drawnPixelsSet = new Set();
+        let targetLetterPixels = 0;
+
+        // Sound Engine Setup (Synthesizer & TTS)
+        let audioCtx = null;
+        let preferredVoice = null;
+
+        // Initialize AudioContext on first interaction
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function unlockAudioDirectly() {
+            getAudioContext();
+            playPopTone();
+            speak('Welcome to Quick Learn!');
+            const notice = document.getElementById('audioUnlockNotice');
+            if (notice) notice.classList.add('hidden');
+        }
+
+        // Global touch listener to unlock audio on first interaction automatically
+        function setupGlobalAudioUnlock() {
+            const unlockHandler = () => {
+                getAudioContext();
+                const notice = document.getElementById('audioUnlockNotice');
+                if (notice) notice.classList.add('hidden');
+                document.removeEventListener('touchstart', unlockHandler);
+                document.removeEventListener('click', unlockHandler);
+            };
+            document.addEventListener('touchstart', unlockHandler, { once: true });
+            document.addEventListener('click', unlockHandler, { once: true });
+        }
+
+        // Voice List Handler for TTS
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                const voices = window.speechSynthesis.getVoices();
+                // Find sweet English female voice or natural children's friendly voice
+                preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('Google') || v.name.includes('Female'))) ||
+                                 voices.find(v => v.lang.startsWith('en')) || null;
+            }
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+            loadVoices();
+        }
+
+        // Robust Speech Function with Web Audio Synth Fallback
+        function speak(text) {
+            if (!soundEnabled) return;
+
+            // 1. Play musical chime first
+            playChimeSound();
+
+            // 2. Browser Speech Synthesis
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.cancel(); // clear previous speech queue
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    if (preferredVoice) utterance.voice = preferredVoice;
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.82; // slow & clear for kids
+                    utterance.pitch = 1.15; // happy child friendly pitch
+                    window.speechSynthesis.speak(utterance);
+                } catch (e) {
+                    // Speech failed fallback to melody
+                    playMelodyTone();
+                }
+            } else {
+                playMelodyTone();
+            }
+        }
+
+        // Synth Sound Effects (Zero External URL Dependency)
+        function playTone(freq, type = 'sine', duration = 0.15) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (err) {}
+        }
+
+        function playPopTone() {
+            playTone(520, 'triangle', 0.1);
+        }
+
+        function playChimeSound() {
+            playTone(659.25, 'sine', 0.12); // E5
+            setTimeout(() => playTone(880, 'sine', 0.18), 90); // A5
+        }
+
+        function playVictorySound() {
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C E G C
+            notes.forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 'triangle', 0.25), idx * 120);
+            });
+        }
+
+        function playMelodyTone() {
+            playTone(440, 'triangle', 0.1);
+            setTimeout(() => playTone(554.37, 'triangle', 0.15), 100);
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggleBtn');
+            btn.innerText = soundEnabled ? '🔊' : '🔇';
+            if (soundEnabled) {
+                playChimeSound();
+                speak('Sound is on');
+            }
+        }
+
+        // Navigation Router
+        function showSection(sectionId) {
+            playPopTone();
+            ['home', 'tracing', 'phonics', 'quiz', 'balloon', 'stickers'].forEach(id => {
+                const el = document.getElementById('section-' + id);
+                if (el) el.classList.add('hidden');
+            });
+            const activeEl = document.getElementById('section-' + sectionId);
+            if (activeEl) {
+                activeEl.classList.remove('hidden');
+                activeEl.classList.add('flex');
+            }
+            if (sectionId === 'stickers') renderStickers();
+        }
+
+        // TRACING ENGINE WITH PROGRESS CALCULATION
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        function initCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 320 * dpr;
+            canvas.height = 320 * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = '320px';
+            canvas.style.height = '320px';
+
+            drawTemplateLetter();
+
+            // Pointer Events
+            canvas.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove);
+            window.addEventListener('mouseup', onPointerUp);
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                startStroke(touch.clientX - rect.left, touch.clientY - rect.top);
+            }, { passive: false });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!isDrawing) return;
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                drawStroke(touch.clientX - rect.left, touch.clientY - rect.top);
+            }, { passive: false });
+
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                endStroke();
+            }, { passive: false });
+        }
+
+        function drawTemplateLetter() {
+            ctx.clearRect(0, 0, 320, 320);
+
+            // Background Letter Shape
+            ctx.font = 'bold 200px Fredoka, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText(currentLetter, 160, 165);
+
+            // Dotted Guide Lines
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([7, 7]);
+            ctx.strokeText(currentLetter, 160, 165);
+            ctx.setLineDash([]);
+
+            drawnPixelsSet.clear();
+            updateProgressUI(0);
+        }
+
+        function onPointerDown(e) {
+            const rect = canvas.getBoundingClientRect();
+            startStroke(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function onPointerMove(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            drawStroke(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function onPointerUp() {
+            endStroke();
+        }
+
+        function startStroke(x, y) {
+            getAudioContext();
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = brushColor;
+            ctx.lineWidth = brushSize;
+            playTone(330, 'sine', 0.05);
+            recordPixel(x, y);
+        }
+
+        function drawStroke(x, y) {
+            if (!isDrawing) return;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            recordPixel(x, y);
+        }
+
+        function endStroke() {
+            if (isDrawing) {
+                ctx.closePath();
+                isDrawing = false;
+                checkAutoCompletion();
+            }
+        }
+
+        function recordPixel(x, y) {
+            const gridKey = Math.floor(x / 8) + '_' + Math.floor(y / 8);
+            drawnPixelsSet.add(gridKey);
+            // Approx 70 discrete points for average full letter trace
+            const percent = Math.min(100, Math.round((drawnPixelsSet.size / 65) * 100));
+            updateProgressUI(percent);
+        }
+
+        function updateProgressUI(percent) {
+            document.getElementById('tracingProgressBar').style.width = percent + '%';
+            document.getElementById('tracingProgressText').innerText = percent + '% পূর্ণ';
+        }
+
+        function checkAutoCompletion() {
+            const percent = Math.min(100, Math.round((drawnPixelsSet.size / 65) * 100));
+            if (percent >= 65) {
+                onLetterCompletedSuccess();
+            }
+        }
+
+        function onLetterCompletedSuccess() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+            playVictorySound();
+            speak('Wonderful! ' + currentLetter);
+            addStar(1);
+            activitiesCompleted++;
+
+            // Trigger natural break for monetization every 4 completions
+            if (activitiesCompleted % 4 === 0) {
+                setTimeout(() => {
+                    document.getElementById('naturalBreakModal').classList.remove('hidden');
+                }, 800);
+            } else {
+                setTimeout(nextLetter, 1200);
+            }
+        }
+
+        function clearTracingCanvas() {
+            playPopTone();
+            drawTemplateLetter();
+        }
+
+        function setBrushColor(color) {
+            brushColor = color;
+            playPopTone();
+        }
+
+        function openTracingMode(char) {
+            currentLetter = char;
+            showSection('tracing');
+            drawTemplateLetter();
+            renderLetterPicker();
+            speakCurrentLetterDirectly();
+        }
+
+        function nextLetter() {
+            const currentIndex = alphabetData.findIndex(item => item.char === currentLetter);
+            const nextIndex = (currentIndex + 1) % alphabetData.length;
+            openTracingMode(alphabetData[nextIndex].char);
+        }
+
+        function speakCurrentLetterDirectly() {
+            const item = alphabetData.find(d => d.char === currentLetter);
+            if (item) {
+                speak(item.phonic);
+            } else {
+                speak(currentLetter);
+            }
+        }
+
+        function renderLetterPicker() {
+            const row = document.getElementById('letterPickerRow');
+            row.innerHTML = '';
+            alphabetData.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `min-w-[34px] h-8 rounded-xl font-bold text-xs ${item.char === currentLetter ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`;
+                btn.innerText = item.char;
+                btn.onclick = () => {
+                    openTracingMode(item.char);
+                };
+                row.appendChild(btn);
+            });
+        }
+
+        // PHONICS GRID
+        function renderPhonicsGrid() {
+            const grid = document.getElementById('phonicsGrid');
+            grid.innerHTML = '';
+            alphabetData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-3 rounded-2xl border-2 border-sky-200 shadow-sm hover:shadow-md text-center cursor-pointer transform hover:-translate-y-1 transition duration-150";
+                card.onclick = () => {
+                    playPopTone();
+                    speak(item.phonic);
+                };
+                card.innerHTML = `
+                    <div class="text-3xl font-black text-sky-600">${item.char}</div>
+                    <div class="text-3xl my-1">${item.emoji}</div>
+                    <div class="text-xs font-bold text-slate-700">${item.word}</div>
+                    <div class="text-[10px] text-slate-400 font-semibold">${item.bangla}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // BALLOON POP MINI GAME
+        let balloonInterval = null;
+        let balloonTargetChar = 'A';
+        let balloonScore = 0;
+
+        function startBalloonGame() {
+            showSection('balloon');
+            balloonScore = 0;
+            document.getElementById('balloonScore').innerText = balloonScore;
+            pickNewBalloonTarget();
+            startSpawningBalloons();
+        }
+
+        function pickNewBalloonTarget() {
+            const randItem = alphabetData[Math.floor(Math.random() * 8)];
+            balloonTargetChar = randItem.char;
+            document.getElementById('targetBalloonChar').innerText = balloonTargetChar;
+            speak('Pop balloon ' + balloonTargetChar);
+        }
+
+        function startSpawningBalloons() {
+            clearInterval(balloonInterval);
+            const sky = document.getElementById('balloonSky');
+            sky.innerHTML = '';
+
+            balloonInterval = setInterval(() => {
+                if (document.getElementById('section-balloon').classList.contains('hidden')) {
+                    clearInterval(balloonInterval);
+                    return;
+                }
+                spawnSingleBalloon();
+            }, 1100);
+        }
+
+        function spawnSingleBalloon() {
+            const sky = document.getElementById('balloonSky');
+            const balloon = document.createElement('div');
+            
+            // Random chance for target letter
+            const isTarget = Math.random() < 0.45;
+            let letter = isTarget ? balloonTargetChar : alphabetData[Math.floor(Math.random() * alphabetData.length)].char;
+
+            const colors = ['bg-pink-400', 'bg-sky-400', 'bg-amber-400', 'bg-emerald-400', 'bg-purple-400'];
+            const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+            const leftPos = Math.floor(Math.random() * 75) + 5;
+            const duration = (Math.random() * 2 + 5).toFixed(1);
+
+            balloon.className = `floating-balloon w-14 h-18 rounded-full ${chosenColor} flex flex-col items-center justify-center text-white font-black text-xl shadow-lg cursor-pointer border-2 border-white/60`;
+            balloon.style.left = leftPos + '%';
+            balloon.style.animationDuration = duration + 's';
+            balloon.innerHTML = `
+                <span>${letter}</span>
+                <span class="text-[9px] -mt-1 opacity-70">🎈</span>
+            `;
+
+            balloon.onclick = () => {
+                if (letter === balloonTargetChar) {
+                    playVictorySound();
+                    if (typeof confetti === 'function') confetti({ particleCount: 30, spread: 40 });
+                    balloonScore += 10;
+                    document.getElementById('balloonScore').innerText = balloonScore;
+                    addStar(1);
+                    speak('Good! ' + letter);
+                    balloon.remove();
+                    pickNewBalloonTarget();
+                } else {
+                    playTone(200, 'sawtooth', 0.15);
+                    speak('Find ' + balloonTargetChar);
+                    balloon.classList.add('opacity-30');
+                }
+            };
+
+            sky.appendChild(balloon);
+
+            // Clean up balloon when animation completes
+            setTimeout(() => {
+                if (balloon && balloon.parentNode) balloon.remove();
+            }, duration * 1000);
+        }
+
+        function stopBalloonGame() {
+            clearInterval(balloonInterval);
+            showSection('home');
+        }
+
+        // MATCHING QUIZ MINI-GAME
+        let currentQuizItem = null;
+        function startMatchGame() {
+            showSection('quiz');
+            loadNextQuiz();
+        }
+
+        function loadNextQuiz() {
+            currentQuizItem = alphabetData[Math.floor(Math.random() * alphabetData.length)];
+            document.getElementById('quizPromptEmoji').innerText = currentQuizItem.emoji;
+            document.getElementById('quizPromptWord').innerText = currentQuizItem.word;
+            speak(currentQuizItem.word);
+
+            let options = [currentQuizItem.char];
+            while (options.length < 3) {
+                const rand = alphabetData[Math.floor(Math.random() * alphabetData.length)].char;
+                if (!options.includes(rand)) options.push(rand);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const b = document.createElement('button');
+                b.className = "bg-amber-100 hover:bg-amber-200 text-amber-900 border-2 border-amber-300 font-black text-3xl py-4 rounded-2xl btn-3d";
+                b.innerText = opt;
+                b.onclick = () => checkQuizSelection(opt, b);
+                optionsContainer.appendChild(b);
+            });
+        }
+
+        function checkQuizSelection(choice, btnElement) {
+            if (choice === currentQuizItem.char) {
+                btnElement.classList.remove('bg-amber-100');
+                btnElement.classList.add('bg-emerald-400', 'text-white');
+                playVictorySound();
+                if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 50 });
+                speak('Correct! ' + currentQuizItem.phonic);
+                addStar(1);
+                let score = parseInt(document.getElementById('quizScore').innerText) + 10;
+                document.getElementById('quizScore').innerText = score;
+                setTimeout(loadNextQuiz, 1000);
+            } else {
+                btnElement.classList.remove('bg-amber-100');
+                btnElement.classList.add('bg-rose-300', 'text-white');
+                playTone(220, 'sawtooth', 0.2);
+                speak('Try again!');
+            }
+        }
+
+        function speakCurrentQuiz() {
+            if (currentQuizItem) speak(currentQuizItem.word);
+        }
+
+        // REWARD & STICKERS
+        function renderStickers() {
+            const grid = document.getElementById('stickersGrid');
+            grid.innerHTML = '';
+            stickersList.forEach(st => {
+                const unlocked = totalStars >= st.minStars;
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-2xl border-2 text-center transition ${unlocked ? 'bg-amber-50 border-amber-300 shadow' : 'bg-slate-100 border-slate-200 opacity-60'}`;
+                card.innerHTML = `
+                    <div class="text-4xl mb-1 ${unlocked ? 'animate-float' : 'filter grayscale'}">${unlocked ? st.emoji : '🔒'}</div>
+                    <div class="text-xs font-bold text-slate-700">${st.name}</div>
+                    <div class="text-[10px] text-slate-400">${st.minStars} স্টার প্রয়োজন</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addStar(amount) {
+            totalStars += amount;
+            localStorage.setItem('quicklearn_stars', totalStars.toString());
+            document.getElementById('starCounter').innerText = totalStars;
+        }
+
+        // NATURAL BREAK & MONETIZATION MODAL
+        function closeNaturalBreakModal() {
+            document.getElementById('naturalBreakModal').classList.add('hidden');
+            addStar(1);
+            playChimeSound();
+        }
+
+        // PARENT GATE (Child safety lock)
+        let parentAns = 0;
+        function openParentGate() {
+            playPopTone();
+            const n1 = Math.floor(Math.random() * 5) + 2;
+            const n2 = Math.floor(Math.random() * 5) + 1;
+            parentAns = n1 + n2;
+            document.getElementById('mathEquation').innerText = `${n1} + ${n2} = ?`;
+            document.getElementById('mathAnswerInput').value = '';
+            document.getElementById('parentGateModal').classList.remove('hidden');
+        }
+
+        function closeParentGate() {
+            document.getElementById('parentGateModal').classList.add('hidden');
+        }
+
+        function checkParentGateAnswer() {
+            const entered = parseInt(document.getElementById('mathAnswerInput').value);
+            if (entered === parentAns) {
+                closeParentGate();
+                alertBox('অভিভাবক অনুমোদন সফল হয়েছে! বিজ্ঞাপন পলিসি ও সেটিংস ঠিক রয়েছে।');
+            } else {
+                playTone(220, 'sawtooth', 0.2);
+                alertBox('ভুল উত্তর! আবার চেষ্টা করুন।');
+            }
+        }
+
+        function alertBox(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white text-xs px-4 py-2 rounded-full shadow-2xl z-50 transition";
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        // WINDOW ONLOAD
+        window.onload = function () {
+            document.getElementById('starCounter').innerText = totalStars;
+            initCanvas();
+            renderPhonicsGrid();
+            renderLetterPicker();
+            setupGlobalAudioUnlock();
+        };
+    </script>
+</body>
+</html>
+```
